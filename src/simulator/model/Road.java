@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.json.JSONObject;
 
-public class Road extends SimulatedObject{
+public abstract class Road extends SimulatedObject{
 	
 	private Junction srcJunc;
 	private Junction destJunc;
