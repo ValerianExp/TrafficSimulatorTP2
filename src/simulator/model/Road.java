@@ -1,20 +1,23 @@
 package simulator.model;
 
+import java.util.Comparator;
 import java.util.List;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 public abstract class Road extends SimulatedObject{
 	
 	private Junction srcJunc;
 	private Junction destJunc;
-	private int length;
-	private int maxSpeed;
-	private int speedLimit;
-	private int contLimit;
-	private Weather weather;
-	private int totalCO2;
+	protected int length;
+	protected int maxSpeed;
+	protected int speedLimit;
+	protected int contLimit;
+	protected Weather weather;
+	protected int totalCO2;
 	private List<Vehicle> vehicles;
+	private Comparator<? super Vehicle> SortVehiclesByLocation;
 	
 	
 
@@ -50,8 +53,7 @@ public abstract class Road extends SimulatedObject{
 	public abstract int calculateVehicleSpeed(Vehicle v);
 	
 	public int getLength() {
-		// TODO Auto-generated method stub
-		return 0;
+		return length;
 	}
 
 	public void addContamination(int c) {
@@ -68,18 +70,78 @@ public abstract class Road extends SimulatedObject{
 
 	@Override
 	void advance(int time) {
-		// TODO Auto-generated method stub
 		this.reduceTotalContamination();
 		this.updateSpeedLimit();
 		for (Vehicle v : vehicles) {
-			//TODO terminar
+			v.setSpeed(calculateVehicleSpeed(v));
+			v.advance(time);
 		}
+		vehicles.sort(SortVehiclesByLocation);
+		//TODO Preguntar esto
+		
+		
 	}
 
 	@Override
 	public JSONObject report() {
-		// TODO Auto-generated method stub
-		return null;
+		JSONObject j = new JSONObject();
+		JSONArray vehiclesArray = new JSONArray();
+		
+		j.put("id", _id);
+		j.put("speedlimit", speedLimit);
+		j.put("weather", weather);
+		j.put("co2", totalCO2);
+		for (Vehicle v : vehicles) {
+			vehiclesArray.put(v);
+		}
+		j.put("vehicles", vehiclesArray);
+		
+		return j;
+	}
+	
+	
+	public class SortVehiclesByLocation implements Comparator<Vehicle>{
+		@Override
+		public int compare(Vehicle v1, Vehicle v2) {
+			if (v1.getLocation() == v2.getLocation()) return 0;
+			else if (v1.getLocation() < v2.getLocation()) return -1;
+			else return 1;
+		}
+		
+	}
+
+
+	public Junction getSrcJunc() {
+		return srcJunc;
+	}
+
+
+	public Junction getDestJunc() {
+		return destJunc;
+	}
+
+	public int getMaxSpeed() {
+		return maxSpeed;
+	}
+
+	public int getSpeedLimit() {
+		return speedLimit;
+	}
+
+	public int getContLimit() {
+		return contLimit;
+	}
+
+	public int getTotalCO2() {
+		return totalCO2;
+	}
+
+	public List<Vehicle> getVehicles() {
+		return vehicles;
+	}
+
+	public Weather getWeather() {
+		return weather;
 	}
 
 }
