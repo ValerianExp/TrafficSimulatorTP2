@@ -6,8 +6,8 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public abstract class Road extends SimulatedObject{
-	
+public abstract class Road extends SimulatedObject {
+
 	private Junction srcJunc;
 	private Junction destJunc;
 	protected int length;
@@ -18,8 +18,6 @@ public abstract class Road extends SimulatedObject{
 	protected int totalCO2;
 	private List<Vehicle> vehicles;
 	private Comparator<? super Vehicle> SortVehiclesByLocation;
-	
-	
 
 	Road(String id, Junction srcJunc, Junction destJunc, int maxSpeed, int contLimit, int length, Weather weather) {
 		super(id);
@@ -29,29 +27,30 @@ public abstract class Road extends SimulatedObject{
 			throw new IllegalArgumentException("Error en los parametros");
 		}
 	}
-	
+
 	void enter(Vehicle v) {
-		if (v.getSpeed() > 0 || v.getLocation() >0 )  throw new IllegalArgumentException("Error");
+		if (v.getSpeed() > 0 || v.getLocation() > 0)
+			throw new IllegalArgumentException("Error");
 		vehicles.add(v);
 	}
-	
+
 	void exit(Vehicle v) {
 		vehicles.remove(v);
 	}
-	
+
 	void setWeather(Weather w) {
 		if (w == null) {
 			throw new IllegalArgumentException("Error en setWeather");
 		}
 		weather = w;
 	}
-	
+
 	public abstract void reduceTotalContamination();
-	
+
 	public abstract void updateSpeedLimit();
-	
+
 	public abstract int calculateVehicleSpeed(Vehicle v);
-	
+
 	public int getLength() {
 		return length;
 	}
@@ -62,8 +61,7 @@ public abstract class Road extends SimulatedObject{
 		}
 		totalCO2 += c;
 	}
-	
-	
+
 	public Junction getDest() {
 		return destJunc;
 	}
@@ -78,43 +76,24 @@ public abstract class Road extends SimulatedObject{
 		}
 		vehicles.sort(SortVehiclesByLocation);
 		//TODO Preguntar esto
-		
-		
+
 	}
 
-	@Override
-	public JSONObject report() {
-		JSONObject j = new JSONObject();
-		JSONArray vehiclesArray = new JSONArray();
-		
-		j.put("id", _id);
-		j.put("speedlimit", speedLimit);
-		j.put("weather", weather);
-		j.put("co2", totalCO2);
-		for (Vehicle v : vehicles) {
-			vehiclesArray.put(v);
-		}
-		j.put("vehicles", vehiclesArray);
-		
-		return j;
-	}
-	
-	
-	public class SortVehiclesByLocation implements Comparator<Vehicle>{
+	public class SortVehiclesByLocation implements Comparator<Vehicle> {
 		@Override
 		public int compare(Vehicle v1, Vehicle v2) {
-			if (v1.getLocation() == v2.getLocation()) return 0;
-			else if (v1.getLocation() < v2.getLocation()) return -1;
-			else return 1;
+			if (v1.getLocation() == v2.getLocation())
+				return 0;
+			else if (v1.getLocation() < v2.getLocation())
+				return -1;
+			else
+				return 1;
 		}
-		
 	}
-
 
 	public Junction getSrcJunc() {
 		return srcJunc;
 	}
-
 
 	public Junction getDestJunc() {
 		return destJunc;
@@ -142,6 +121,23 @@ public abstract class Road extends SimulatedObject{
 
 	public Weather getWeather() {
 		return weather;
+	}
+
+	@Override
+	public JSONObject report() {
+		JSONObject j = new JSONObject();
+		JSONArray vehiclesArray = new JSONArray();
+
+		j.put("id", _id);
+		j.put("speedlimit", speedLimit);
+		j.put("weather", weather);
+		j.put("co2", totalCO2);
+		for (Vehicle v : vehicles) {
+			vehiclesArray.put(v);
+		}
+		j.put("vehicles", vehiclesArray);
+
+		return j;
 	}
 
 }
