@@ -20,24 +20,23 @@ public class Vehicle extends SimulatedObject {
 	private int totalDistance;
 
 	public Vehicle(String id, int maxSpeed, int contClass, List<Junction> itinerary) {
-		// TODO Auto-generated constructor stub
 		super(id);
 
 		if (maxSpeed < 0) {
-			throw new IllegalArgumentException("maxSpeed en la clase vehiculo es negativa");
+			throw new IllegalArgumentException("maxSpeed en la clase constructora Vehiculo es negativa");
 		} else if (contClass < 0 || contClass > 10) {
-			throw new IllegalArgumentException("contClass en la clase Vehiculo no esta entre 0 y 10");
+			throw new IllegalArgumentException("contClass en la clase constructora Vehiculo no esta entre 0 y 10");
 		} else if (itinerary.size() < 1) {
 			// Al menos 2
-			throw new IllegalArgumentException("el tamaño de itineray.size() no es al menos 2");
+			throw new IllegalArgumentException(
+					"el tamaño de itineray.size() en la clase constructora Vehiculo no es al menos 2");
 		}
-
 		this.itinerary = Collections.unmodifiableList(new ArrayList<>(itinerary));
 	}
 
 	@Override
 	void advance(int time) {
-		//TODO comprobar que este bie
+		//TODO comprobar que este bien
 		if (status == VehicleStatus.TRAVELING) {
 			int oldLocation = location;
 			location = Math.min(location + speed, road.getLength());
@@ -52,34 +51,16 @@ public class Vehicle extends SimulatedObject {
 			}
 		} else {
 			if (speed != 0) { //TODO Comprobar esto
-				throw new IllegalArgumentException("Error en la velocidad");
+				throw new IllegalArgumentException("Velocidad es negativa en el metodo advance() de Vehiculo");
 			}
 		}
-
-	}
-
-	@Override
-	public JSONObject report() {
-		JSONObject j = new JSONObject();
-		j.put("id", _id);
-		j.put("speed", speed);
-		j.put("distance", distance);
-		j.put("co2", totalCO2);
-		j.put("class", contaminationClass);
-		j.put("status", status);
-		if (!(status == VehicleStatus.PENDING || status == VehicleStatus.ARRIVED)) {
-			j.put("road", road);
-			j.put("location", location);
-		}
-
-		return j;
 	}
 
 	void moveToNextRoad() {
-		//		 this.getRoad().exit(this);
-
+		//TODO preguntar si el meotodo esta bien
+		//		 this.getRoad().exit(this)
 		if (status == VehicleStatus.PENDING) {
-
+			//Do nothing?
 		} else if (status == VehicleStatus.WAITING) {
 			if (itinerary.size() == 1) {
 
@@ -160,6 +141,22 @@ public class Vehicle extends SimulatedObject {
 
 	private void setTotalCO2(int totalCO2) {
 		this.totalCO2 = totalCO2;
+	}
+
+	@Override
+	public JSONObject report() {
+		JSONObject j = new JSONObject();
+		j.put("id", _id);
+		j.put("speed", speed);
+		j.put("distance", distance);
+		j.put("co2", totalCO2);
+		j.put("class", contaminationClass);
+		j.put("status", status);
+		if (!(status == VehicleStatus.PENDING || status == VehicleStatus.ARRIVED)) {
+			j.put("road", road);
+			j.put("location", location);
+		}
+		return j;
 	}
 
 }

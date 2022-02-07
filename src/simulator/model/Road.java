@@ -1,5 +1,6 @@
 package simulator.model;
 
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -23,8 +24,18 @@ public abstract class Road extends SimulatedObject {
 		super(id);
 		this.srcJunc = srcJunc;
 		this.destJunc = destJunc;
-		if (maxSpeed < 0 || contLimit < 0 || length < 0 || srcJunc == null || destJunc == null || weather == null) {
-			throw new IllegalArgumentException("Error en los parametros");
+		if (maxSpeed < 0) {
+			throw new IllegalArgumentException("maxSpeed en la clase constructora Road es negativa");
+		} else if (contLimit < 0) {
+			throw new IllegalArgumentException("contLimit en la clase constructora Road es negativa");
+		} else if (length < 0) {
+			throw new IllegalArgumentException("length en la clase constructora Road es negativa");
+		} else if (srcJunc != null) {
+			throw new IllegalArgumentException("srcJunc en la clase constructora Road es null");
+		} else if (destJunc != null) {
+			throw new IllegalArgumentException("destJunc en la clase constructora Road es null");
+		} else if (weather != null) {
+			throw new IllegalArgumentException("weather en la clase constructora Road es null");
 		}
 	}
 
@@ -57,7 +68,7 @@ public abstract class Road extends SimulatedObject {
 
 	public void addContamination(int c) {
 		if (c < 0) {
-			throw new IllegalArgumentException("c es negativa");
+			throw new IllegalArgumentException("parametro c en el metodo negativa");
 		}
 		totalCO2 += c;
 	}
@@ -74,8 +85,8 @@ public abstract class Road extends SimulatedObject {
 			v.setSpeed(calculateVehicleSpeed(v));
 			v.advance(time);
 		}
-		vehicles.sort(SortVehiclesByLocation);
 		//TODO Preguntar esto
+		vehicles.sort(SortVehiclesByLocation);
 
 	}
 
@@ -116,7 +127,7 @@ public abstract class Road extends SimulatedObject {
 	}
 
 	public List<Vehicle> getVehicles() {
-		return vehicles;
+		return Collections.unmodifiableList(vehicles);
 	}
 
 	public Weather getWeather() {
