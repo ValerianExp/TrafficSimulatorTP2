@@ -18,6 +18,7 @@ public class Vehicle extends SimulatedObject {
 	private int contaminationClass;
 	private int totalCO2;
 	private int totalDistance;
+	private int lastJunctionIndex;
 
 	public Vehicle(String id, int maxSpeed, int contClass, List<Junction> itinerary) {
 		super(id);
@@ -36,7 +37,7 @@ public class Vehicle extends SimulatedObject {
 
 	@Override
 	void advance(int time) {
-		//TODO comprobar que este bien
+		//TODO comprobar que este bien, tener en cuenta el time
 		if (status == VehicleStatus.TRAVELING) {
 			int oldLocation = location;
 			location = Math.min(location + speed, road.getLength());
@@ -57,15 +58,15 @@ public class Vehicle extends SimulatedObject {
 	}
 
 	void moveToNextRoad() {
-		//TODO preguntar si el meotodo esta bien
-		//		 this.getRoad().exit(this)
 		if (status == VehicleStatus.PENDING) {
-			//Do nothing?
+			itinerary.get(0).roadTo(itinerary.get(1)).enter(this);
 		} else if (status == VehicleStatus.WAITING) {
-			if (itinerary.size() == 1) {
-
+			if (lastJunctionIndex +1 == itinerary.size()) { 
+				road.exit(this);
+				status = VehicleStatus.ARRIVED;
 			} else {
-
+				road.exit(this);
+				road.getDestJunc().roadTo(itinerary.get(lastJunctionIndex+1)).enter(this);
 			}
 		} else {
 			throw new IllegalArgumentException("Estado del coche erroneo");

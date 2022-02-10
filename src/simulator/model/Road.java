@@ -86,7 +86,7 @@ public abstract class Road extends SimulatedObject {
 			v.advance(time);
 		}
 		//TODO Preguntar esto
-		vehicles.sort(SortVehiclesByLocation);
+		vehicles.sort(new SortVehiclesByLocation());
 
 	}
 

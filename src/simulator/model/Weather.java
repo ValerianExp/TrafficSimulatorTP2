@@ -1,18 +1,23 @@
 package simulator.model;
 
 public enum Weather {
-	SUNNY(2), CLOUDY(3), RAINY(10), WINDY(15), STORM(20);
+	SUNNY(2,2), CLOUDY(3,2), RAINY(10,2), WINDY(15,10), STORM(20,10);
 
-	int value;
+	int interContam;
+	int urbanContam;
 
-	//TODO Preguntar si se puede hacer 
-	//Creo que no se puede hacer mira la clase CityRoad, pone otro tipo de valores para cada enumerado
-	Weather(int value) {
-		this.value = value;
+
+	Weather(int interContam, int urbanContam) {
+		this.interContam = interContam;
+		this.urbanContam = urbanContam;
 
 	}
 
-	public int getValue() {
-		return value;
+	public int getUrbanContam() {
+		return urbanContam;
+	}
+	
+	public int getInterContam() {
+		return interContam;
 	}
 }

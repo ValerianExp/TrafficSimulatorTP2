@@ -9,7 +9,7 @@ public class InterCityRoad extends Road {
 
 	@Override
 	public void reduceTotalContamination() {
-		totalCO2 = ((100 - getWeather().getValue()) * totalCO2)/100;
+		totalCO2 = ((100 - getWeather().getInterContam()) * totalCO2)/100;
 		
 	}
 
