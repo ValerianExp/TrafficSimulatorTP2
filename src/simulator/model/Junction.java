@@ -9,7 +9,9 @@ public class Junction extends SimulatedObject {
 	
 	List<Road> incomingRoads;
 	Map<Junction, Road> outgoingRoads;
+	//TODO completar
 	Junction(String id) {
+		
 		super(id);
 	}
 
