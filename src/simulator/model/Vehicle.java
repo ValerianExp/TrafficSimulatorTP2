@@ -27,7 +27,7 @@ public class Vehicle extends SimulatedObject {
 			throw new IllegalArgumentException("maxSpeed en la clase constructora Vehiculo es negativa");
 		} else if (contClass < 0 || contClass > 10) {
 			throw new IllegalArgumentException("contClass en la clase constructora Vehiculo no esta entre 0 y 10");
-		} else if (itinerary.size() < 1) {
+		} else if (itinerary.size() < 2) {
 			// Al menos 2
 			throw new IllegalArgumentException(
 					"el tamaño de itineray.size() en la clase constructora Vehiculo no es al menos 2");
@@ -37,7 +37,6 @@ public class Vehicle extends SimulatedObject {
 
 	@Override
 	void advance(int time) {
-		//TODO comprobar que este bien, tener en cuenta el time
 		if (status == VehicleStatus.TRAVELING) {
 			int oldLocation = location;
 			location = Math.min(location + speed, road.getLength());
@@ -50,20 +49,20 @@ public class Vehicle extends SimulatedObject {
 				j.enter(this);
 				status = VehicleStatus.WAITING;
 			}
-		} else {
-			if (speed != 0) { //TODO Comprobar esto
-				throw new IllegalArgumentException("Velocidad es negativa en el metodo advance() de Vehiculo");
-			}
+		} else if (speed != 0) { 
+			throw new IllegalArgumentException("Velocidad es negativa en el metodo advance() de Vehiculo");
 		}
 	}
 
 	void moveToNextRoad() {
+		lastJunctionIndex = 0; //TODO Como hayar el indice de la lista
 		if (status == VehicleStatus.PENDING) {
 			itinerary.get(0).roadTo(itinerary.get(1)).enter(this);
 		} else if (status == VehicleStatus.WAITING) {
 			if (lastJunctionIndex +1 == itinerary.size()) { 
 				road.exit(this);
 				status = VehicleStatus.ARRIVED;
+				
 			} else {
 				road.exit(this);
 				road.getDestJunc().roadTo(itinerary.get(lastJunctionIndex+1)).enter(this);
