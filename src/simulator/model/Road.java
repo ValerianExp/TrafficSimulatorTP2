@@ -43,7 +43,7 @@ public abstract class Road extends SimulatedObject {
 		if (v.getSpeed() > 0 || v.getLocation() > 0)
 			throw new IllegalArgumentException("Error");
 		vehicles.add(v);
-		//TODO Comprobar que el .add() añada vehiculos ordenados
+		//TODO modificar clase para que añada en orden
 	}
 
 	void exit(Vehicle v) {

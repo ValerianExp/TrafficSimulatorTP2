@@ -33,6 +33,7 @@ public class Vehicle extends SimulatedObject {
 					"el tamaño de itineray.size() en la clase constructora Vehiculo no es al menos 2");
 		}
 		this.itinerary = Collections.unmodifiableList(new ArrayList<>(itinerary));
+		lastJunctionIndex = 0;
 	}
 
 	@Override
@@ -49,23 +50,25 @@ public class Vehicle extends SimulatedObject {
 				j.enter(this);
 				status = VehicleStatus.WAITING;
 			}
-		} else if (speed != 0) { 
+		} else if (speed != 0) {
 			throw new IllegalArgumentException("Velocidad es negativa en el metodo advance() de Vehiculo");
 		}
 	}
 
 	void moveToNextRoad() {
-		lastJunctionIndex = 0; //TODO Como hayar el indice de la lista
 		if (status == VehicleStatus.PENDING) {
-			itinerary.get(0).roadTo(itinerary.get(1)).enter(this);
+			itinerary.get(lastJunctionIndex).roadTo(itinerary.get(lastJunctionIndex + 1)).enter(this);
+			setLocation(0);
 		} else if (status == VehicleStatus.WAITING) {
-			if (lastJunctionIndex +1 == itinerary.size()) { 
+			if (lastJunctionIndex + 1 == itinerary.size()) {
 				road.exit(this);
 				status = VehicleStatus.ARRIVED;
-				
+
 			} else {
 				road.exit(this);
-				road.getDestJunc().roadTo(itinerary.get(lastJunctionIndex+1)).enter(this);
+				road.getDestJunc().roadTo(itinerary.get(lastJunctionIndex + 1)).enter(this);
+				lastJunctionIndex++;
+				setLocation(0);
 			}
 		} else {
 			throw new IllegalArgumentException("Estado del coche erroneo");
