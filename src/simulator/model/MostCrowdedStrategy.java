@@ -26,6 +26,7 @@ public class MostCrowdedStrategy implements LightSwitchingStrategy {
 		}
 		List<Vehicle> max = qs.get(currGreen + 1);
 
+
 		for (int i = currGreen + 1; i < currGreen + 1 + qs.size(); i++) {
 			if (qs.get(i % qs.size()).size() > max.size())
 				max = qs.get(i % qs.size());

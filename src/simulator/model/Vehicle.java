@@ -20,7 +20,7 @@ public class Vehicle extends SimulatedObject {
 	private int totalDistance;
 	private int lastJunctionIndex;
 
-	public Vehicle(String id, int maxSpeed, int contClass, List<Junction> itinerary) {
+	Vehicle(String id, int maxSpeed, int contClass, List<Junction> itinerary) {
 		super(id);
 
 		if (maxSpeed < 0) {
