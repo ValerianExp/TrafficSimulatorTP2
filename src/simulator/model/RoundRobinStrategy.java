@@ -6,7 +6,7 @@ public class RoundRobinStrategy implements LightSwitchingStrategy {
 
 	private int timeSlot;
 
-	RoundRobinStrategy(int timeSlot) {
+	public RoundRobinStrategy(int timeSlot) {
 		this.timeSlot = timeSlot;
 	}
 
@@ -17,9 +17,11 @@ public class RoundRobinStrategy implements LightSwitchingStrategy {
 			return -1;
 		} else if (currGreen == -1) {
 			return 0;
-		} else if (currTime - lastSwitchingTime < timeSlot) {
+		} 
+		/*else if (currTime - lastSwitchingTime < timeSlot) {
 			return currGreen;
 		}
+		*/
 		return (currGreen + 1) % roads.size();
 	}
 
