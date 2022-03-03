@@ -9,7 +9,10 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
+import simulator.factories.BuilderBasedFactory;
 import simulator.factories.Factory;
+import simulator.factories.MostCrowdedStrategyBuilder;
+import simulator.factories.RoundRobinStrategyBuilder;
 import simulator.model.Event;
 
 public class Main {
@@ -85,6 +88,12 @@ public class Main {
 	private static void initFactories() {
 
 		// TODO complete this method to initialize _eventsFactory
+//		List<Builder<LightSwitchingStrategy>> lsbs = new ArrayList<>();
+//		lsbs.add( new RoundRobinStrategyBuilder() );
+//		lsbs.add( new MostCrowdedStrategyBuilder() );
+//		Factory<LightSwitchingStrategy> lssFactory = new BuilderBasedFactory
+//		<>(lsbs);
+
 
 	}
 

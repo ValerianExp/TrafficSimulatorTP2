@@ -13,7 +13,6 @@ public class Junction extends SimulatedObject {
 	private Map<Junction, Road> outgoingRoads;
 	private List<List<Vehicle>> queueList;
 	private Map<Road, List<Vehicle>> queueMap;
-	//TODO Se recomienda guardar un Map<Road,List<Vehicles> para hacer la búsqueda
 	private int greenLightIndex;
 	private int lastSwitchStep;
 	private LightSwitchingStrategy lsStrategy;
@@ -21,14 +20,13 @@ public class Junction extends SimulatedObject {
 	private int xCoor;
 	private int yCoor;
 
-	//TODO Completar atributos del Junction
-	Junction(String id, LightSwitchingStrategy lsStrategy, ModeAllStrategy modeAllStrategy, int xCoor,
+	Junction(String id, LightSwitchingStrategy lsStrategy, DequeuingStrategy dqStrategy, int xCoor,
 			int yCoor) {
 		super(id);
 		lastSwitchStep = 0;
 		if (lsStrategy == null)
 			throw new IllegalArgumentException("lsStrategy no puede ser null");
-		if (modeAllStrategy == null)
+		if (dqStrategy == null)
 			throw new IllegalArgumentException("dqStrategy no puede ser null");
 		if (xCoor < 0 || yCoor < 0)
 			throw new IllegalArgumentException("no puede haber coordenadas negativas");
@@ -73,27 +71,6 @@ public class Junction extends SimulatedObject {
 
 	@Override
 	public JSONObject report() {
-		/*
-		JSONObject j = new JSONObject();
-		JSONArray queueArray = new JSONArray();
-		JSONArray vehicleArray = new JSONArray();
-		
-		j.put("id", _id);
-		// j.put("green", ??);
-		if (greenLightIndex == -1) {
-			j.put("green", incomingRoads.get(greenLightIndex).getId());
-		} else {
-			//j.put("green" , );
-		}
-		for (List<Vehicle> q : queueList) {
-			//TODO implementar mapa de carreteras y vehiculos
-			for (Vehicle v : q) {
-				vehicleArray.put(v);
-			}
-			j.put("vehicles", vehicleArray);
-		}
-		return null;
-		*/
 		JSONObject j = new JSONObject();
 		JSONArray a = new JSONArray();
 		j.put("id", _id);
@@ -103,17 +80,19 @@ public class Junction extends SimulatedObject {
 			j.put("green", incomingRoads.get(greenLightIndex)._id);
 		}
 
-		//TODO completar
+		//TODO completar JSON del Junction
 		for (Road r : incomingRoads) {
 			JSONObject jaux = new JSONObject();
 			JSONArray arraux = new JSONArray();
-			jaux.put("road", r._id);
+			jaux.put("road", r.getId());
 			for (Vehicle v : queueMap.get(r)) {
-				arraux.put(v._id);
+				arraux.put(v.getId());
 			}
-			arraux.put("vehicles");
+			jaux.put("vehicles",jaux);
+			a.put(jaux);
+			
 		}
-
+		j.put("queues", a);
 		return j;
 	}
 
