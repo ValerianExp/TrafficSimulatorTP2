@@ -1,5 +1,7 @@
 package simulator.model;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -23,13 +25,24 @@ public class Junction extends SimulatedObject {
 	Junction(String id, LightSwitchingStrategy lsStrategy, DequeuingStrategy dqStrategy, int xCoor,
 			int yCoor) {
 		super(id);
-		lastSwitchStep = 0;
+
 		if (lsStrategy == null)
 			throw new IllegalArgumentException("lsStrategy no puede ser null");
 		if (dqStrategy == null)
 			throw new IllegalArgumentException("dqStrategy no puede ser null");
 		if (xCoor < 0 || yCoor < 0)
 			throw new IllegalArgumentException("no puede haber coordenadas negativas");
+		
+		lastSwitchStep = 0;
+		this.lsStrategy = lsStrategy;
+		this.dqStrategy = dqStrategy;
+		this.xCoor = xCoor;
+		this.yCoor = yCoor;
+		incomingRoads = new ArrayList<>();
+		outgoingRoads = new HashMap<>();
+		queueList = new ArrayList<>();
+		queueMap = new HashMap<>();
+		greenLightIndex = -1;
 	}
 
 	void addIncomingRoad(Road r) {
@@ -101,11 +114,11 @@ public class Junction extends SimulatedObject {
 	}
 
 	Road roadTo(Junction j) {
-		Road r = outgoingRoads.get(this);
-		if (r.getDestJunc().equals(j))
+		Road r = outgoingRoads.get(j);
+		//if (r.getDestJunc().equals(j))
 			return r;
-		else
-			return null;
+		//else
+			//return null;
 	}
 
 }

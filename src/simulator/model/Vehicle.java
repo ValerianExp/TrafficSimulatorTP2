@@ -34,6 +34,7 @@ public class Vehicle extends SimulatedObject {
 		}
 		this.itinerary = Collections.unmodifiableList(new ArrayList<>(itinerary));
 		lastJunctionIndex = 0;
+		status = VehicleStatus.PENDING;
 	}
 
 	@Override
@@ -56,20 +57,29 @@ public class Vehicle extends SimulatedObject {
 	}
 
 	void moveToNextRoad() {
+		setSpeed(0);
+		setLocation(0);
 		if (status == VehicleStatus.PENDING) {
-			itinerary.get(lastJunctionIndex).roadTo(itinerary.get(lastJunctionIndex + 1)).enter(this);
-			setLocation(0);
+			road = itinerary.get(lastJunctionIndex).roadTo(itinerary.get(lastJunctionIndex));
+			if(road != null) {
+				road.enter(this);
+			}
+			//itinerary.get(lastJunctionIndex).roadTo(itinerary.get(lastJunctionIndex + 1)).enter(this);
+			//setLocation(0);
+			this.status = VehicleStatus.TRAVELING;
+			
 		} else if (status == VehicleStatus.WAITING) {
 			if (lastJunctionIndex + 1 == itinerary.size()) {
 				road.exit(this);
 				status = VehicleStatus.ARRIVED;
-
+				
 			} else {
 				road.exit(this);
 				road.getDestJunc().roadTo(itinerary.get(lastJunctionIndex + 1)).enter(this);
 				lastJunctionIndex++;
-				setLocation(0);
+				//setLocation(0);
 			}
+			
 		} else {
 			throw new IllegalArgumentException("Estado del coche erroneo");
 		}
@@ -131,7 +141,7 @@ public class Vehicle extends SimulatedObject {
 		return contaminationClass;
 	}
 
-	void setContaminationClass(int contClass) {
+	void setContClass(int contClass) {
 		if (contClass < 0 || contClass > 10) {
 			throw new IllegalArgumentException("contClass negativo");
 		}
