@@ -131,7 +131,7 @@ public class Vehicle extends SimulatedObject {
 		return contaminationClass;
 	}
 
-	void setContaminationClass(int contClass) {
+	void setContClass(int contClass) {
 		if (contClass < 0 || contClass > 10) {
 			throw new IllegalArgumentException("contClass negativo");
 		}
