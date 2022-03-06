@@ -38,10 +38,10 @@ public class Junction extends SimulatedObject {
 		this.dqStrategy = dqStrategy;
 		this.xCoor = xCoor;
 		this.yCoor = yCoor;
-		incomingRoads = new ArrayList<>();
-		outgoingRoads = new HashMap<>();
+		incomingRoads = new ArrayList<Road>();
+		outgoingRoads = new HashMap<Junction, Road>();
 		queueList = new ArrayList<>();
-		queueMap = new HashMap<>();
+		queueMap = new HashMap<Road, List<Vehicle>>();
 		greenLightIndex = -1;
 	}
 
@@ -55,10 +55,14 @@ public class Junction extends SimulatedObject {
 	}
 
 	void addOutGoingRoad(Road r) {
-		Junction j = r.getDestJunc();
-		outgoingRoads.put(j, r);
+		//Junction j = r.getDestJunc();
+		outgoingRoads.put(this, r);
+		
+		//TODO cambiar la exception
+		/*
 		if (!r.getSrcJunc().equals(this) || outgoingRoads.get(this).getDestJunc().equals(j))
 			throw new IllegalArgumentException("Error: no es una carretera saliente");
+		*/
 	}
 
 	@Override

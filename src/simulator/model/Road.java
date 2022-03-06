@@ -23,13 +23,7 @@ public abstract class Road extends SimulatedObject {
 
 	Road(String id, Junction srcJunc, Junction destJunc, int maxSpeed, int contLimit, int length, Weather weather) {
 		super(id);
-		vehicles = new ArrayList<Vehicle>();
-		this.srcJunc = srcJunc;
-		this.destJunc = destJunc;
-		this.maxSpeed = maxSpeed;
-		this.contLimit = contLimit;
-		this.length = length;
-		this.weather = weather;
+
 		if (maxSpeed < 0) {
 			throw new IllegalArgumentException("maxSpeed en la clase constructora Road es negativa");
 		} else if (contLimit < 0) {
@@ -43,6 +37,15 @@ public abstract class Road extends SimulatedObject {
 		} else if (weather == null) {
 			throw new IllegalArgumentException("weather en la clase constructora Road es null");
 		}
+		vehicles = new ArrayList<Vehicle>();
+		this.srcJunc = srcJunc;
+		this.destJunc = destJunc;
+		this.maxSpeed = maxSpeed;
+		this.contLimit = contLimit;
+		this.length = length;
+		this.weather = weather;
+		srcJunc.addOutGoingRoad(this);
+		destJunc.addIncomingRoad(this);
 		
 	}
 

@@ -15,7 +15,7 @@ public class Vehicle extends SimulatedObject {
 	private VehicleStatus status;
 	private Road road;
 	private int location;
-	private int contaminationClass;
+	private int contClass;
 	private int totalCO2;
 	private int totalDistance;
 	private int lastJunctionIndex;
@@ -34,26 +34,31 @@ public class Vehicle extends SimulatedObject {
 		}
 		this.itinerary = Collections.unmodifiableList(new ArrayList<>(itinerary));
 		lastJunctionIndex = 0;
+		this.maxSpeed = maxSpeed;
+		this.contClass = contClass;
+		
 		status = VehicleStatus.PENDING;
 	}
 
 	@Override
 	void advance(int time) {
-		if (status == VehicleStatus.TRAVELING) {
+		if (speed < 0) {
+			throw new IllegalArgumentException("Velocidad es negativa en el metodo advance() de Vehiculo");
+		}
+		else if (status == VehicleStatus.TRAVELING) {
 			int oldLocation = location;
 			location = Math.min(location + speed, road.getLength());
-			int c = contaminationClass * (location - oldLocation);
+			int c = contClass * (location - oldLocation);
 			totalCO2 += c;
 			road.addContamination(c);
+			totalDistance += location - oldLocation;
 			if (location >= road.getLength()) {
 				Junction j;
 				j = road.getDestJunc();
 				j.enter(this);
 				status = VehicleStatus.WAITING;
 			}
-		} else if (speed != 0) {
-			throw new IllegalArgumentException("Velocidad es negativa en el metodo advance() de Vehiculo");
-		}
+		} 
 	}
 
 	void moveToNextRoad() {
@@ -61,12 +66,14 @@ public class Vehicle extends SimulatedObject {
 		setLocation(0);
 		if (status == VehicleStatus.PENDING) {
 			road = itinerary.get(lastJunctionIndex).roadTo(itinerary.get(lastJunctionIndex));
+
 			if(road != null) {
 				road.enter(this);
 			}
 			//itinerary.get(lastJunctionIndex).roadTo(itinerary.get(lastJunctionIndex + 1)).enter(this);
 			//setLocation(0);
 			this.status = VehicleStatus.TRAVELING;
+			lastJunctionIndex++;
 			
 		} else if (status == VehicleStatus.WAITING) {
 			if (lastJunctionIndex + 1 == itinerary.size()) {
@@ -138,14 +145,14 @@ public class Vehicle extends SimulatedObject {
 	}
 
 	public int getContClass() {
-		return contaminationClass;
+		return contClass;
 	}
 
 	void setContClass(int contClass) {
 		if (contClass < 0 || contClass > 10) {
 			throw new IllegalArgumentException("contClass negativo");
 		}
-		this.contaminationClass = contClass;
+		this.contClass = contClass;
 	}
 
 	public int getTotalCO2() {
@@ -163,7 +170,7 @@ public class Vehicle extends SimulatedObject {
 		j.put("speed", speed);
 		j.put("distance", distance);
 		j.put("co2", totalCO2);
-		j.put("class", contaminationClass);
+		j.put("class", contClass);
 		j.put("status", status);
 		if (!(status == VehicleStatus.PENDING || status == VehicleStatus.ARRIVED)) {
 			j.put("road", road);
