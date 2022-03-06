@@ -1,7 +1,0 @@
-{
-    "java.project.referencedLibraries": [
-        "lib/**/*.jar",
-        "c:\\Users\\Rql\\git\\TrafficSimulatorTP2\\lib\\commons-cli-1.4.jar",
-        "c:\\Users\\Rql\\git\\TrafficSimulatorTP2\\lib\\json.jar"
-    ]
-}
