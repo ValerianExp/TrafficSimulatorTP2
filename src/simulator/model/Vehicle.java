@@ -46,7 +46,7 @@ public class Vehicle extends SimulatedObject {
 			road.addContamination(c);
 			if (location >= road.getLength()) {
 				Junction j;
-				j = road.getDest();
+				j = road.getDestJunc();
 				j.enter(this);
 				status = VehicleStatus.WAITING;
 			}
@@ -131,7 +131,7 @@ public class Vehicle extends SimulatedObject {
 		return contaminationClass;
 	}
 
-	void setContClass(int contClass) {
+	void setContaminationClass(int contClass) {
 		if (contClass < 0 || contClass > 10) {
 			throw new IllegalArgumentException("contClass negativo");
 		}

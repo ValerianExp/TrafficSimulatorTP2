@@ -42,9 +42,9 @@ public class Junction extends SimulatedObject {
 	}
 
 	void addOutGoingRoad(Road r) {
-		Junction j = r.getDest();
+		Junction j = r.getDestJunc();
 		outgoingRoads.put(j, r);
-		if (!r.getSrcJunc().equals(this) || outgoingRoads.get(this).getDest().equals(j))
+		if (!r.getSrcJunc().equals(this) || outgoingRoads.get(this).getDestJunc().equals(j))
 			throw new IllegalArgumentException("Error: no es una carretera saliente");
 	}
 
@@ -71,29 +71,27 @@ public class Junction extends SimulatedObject {
 
 	@Override
 	public JSONObject report() {
-		JSONObject j = new JSONObject();
-		JSONArray a = new JSONArray();
-		j.put("id", _id);
-		if (greenLightIndex == -1) {
-			j.put("green", "none");
-		} else {
-			j.put("green", incomingRoads.get(greenLightIndex)._id);
-		}
-
-		//TODO completar JSON del Junction
+		JSONObject junction = new JSONObject();
+		JSONArray arrayQueues = new JSONArray();
+		
+		junction.put("id", _id);
+		if (greenLightIndex == -1) junction.put("green", "none");
+		else junction.put("green", incomingRoads.get(greenLightIndex)._id);
+		
+		
 		for (Road r : incomingRoads) {
 			JSONObject jaux = new JSONObject();
-			JSONArray arraux = new JSONArray();
+			JSONArray vehicles = new JSONArray();
 			jaux.put("road", r.getId());
 			for (Vehicle v : queueMap.get(r)) {
-				arraux.put(v.getId());
+				vehicles.put(v.getId());
 			}
-			jaux.put("vehicles",jaux);
-			a.put(jaux);
+			jaux.put("vehicles", vehicles);
+			arrayQueues.put(jaux);
 			
 		}
-		j.put("queues", a);
-		return j;
+		junction.put("queues", arrayQueues);
+		return junction;
 	}
 
 	public void enter(Vehicle v) {
@@ -104,7 +102,7 @@ public class Junction extends SimulatedObject {
 
 	Road roadTo(Junction j) {
 		Road r = outgoingRoads.get(this);
-		if (r.getDest().equals(j))
+		if (r.getDestJunc().equals(j))
 			return r;
 		else
 			return null;

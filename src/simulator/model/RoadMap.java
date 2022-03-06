@@ -1,9 +1,12 @@
 package simulator.model;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class RoadMap {
@@ -15,7 +18,12 @@ public class RoadMap {
 	private Map<String, Vehicle> vehicleMap;
 	
 	RoadMap(){
-		//TODO Initialize the maps to their default values (?)
+		junctionList = new ArrayList<Junction>();
+		roadList = new ArrayList<Road>();
+		vehicleList = new ArrayList<Vehicle>();
+		junctionMap = new HashMap<String,Junction>();
+		roadMap = new HashMap<String,Road>();
+		vehicleMap = new HashMap<String, Vehicle>();
 	}
 	
 	void addJunction(Junction j) {
@@ -32,13 +40,12 @@ public class RoadMap {
 	}
 	void addVehicle(Vehicle v) {
 		if(vehicleMap.containsKey(v.getId())) throw new IllegalArgumentException("Road ya existente");
-		vehicleList.add(v);
-		vehicleMap.put(v.getId(), v);
 		List<Junction> lista = v.getItinerary();
-		for(Junction vs: lista) {
-			//TODO Check every Junction in a vehicle itinerary is connected
+		for (int i = 0; i < lista.size() - 1; i++) { 
+			if(lista.get(i).roadTo(lista.get(i + 1)) == null) throw new IllegalArgumentException("La carretera " + i + " no pertenece al itinerario del vehiculo");
 		}
-		
+		vehicleList.add(v);
+		vehicleMap.put(v.getId(), v);	
 	}
 	
 	public Junction getJunction(String id) {
@@ -72,7 +79,26 @@ public class RoadMap {
 	
 	public JSONObject report(){
 		JSONObject j = new JSONObject();
-		//TODO Create JSON from RoadMap
+		JSONArray junctionJSON = new JSONArray();
+		JSONArray roadJSON = new JSONArray();
+		JSONArray vehicleJSON = new JSONArray();
+		
+		for(Junction x: junctionList) {
+			junctionJSON.put(x.report());
+		}
+		j.put("junctions", junctionJSON);
+		
+		
+		for(Road x: roadList) {
+			roadJSON.put(x.report());
+		}
+		j.put("road", roadJSON);
+		
+		for(Vehicle x: vehicleList) {
+			vehicleJSON.put(x.report());
+		}
+		j.put("vehicles", vehicleJSON);
+		
 		return j;
 	}
 	

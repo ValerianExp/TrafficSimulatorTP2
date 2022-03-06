@@ -27,7 +27,7 @@ public class SetContClassEventBuilder extends Builder<Event> {
 		
 		JSONArray array = data.getJSONArray("info"); 
 		for(int i = 0; i<array.length(); i ++) {
-			String id = array.getJSONObject(i).getString("road");
+			String id = array.getJSONObject(i).getString("vehicle");
 			int contamination = array.getJSONObject(i).getInt("class");
 			pairList.add(new Pair<String, Integer>(id,contamination));
 		}

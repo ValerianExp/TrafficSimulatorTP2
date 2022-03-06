@@ -22,8 +22,6 @@ public abstract class Road extends SimulatedObject {
 
 	Road(String id, Junction srcJunc, Junction destJunc, int maxSpeed, int contLimit, int length, Weather weather) {
 		super(id);
-		this.srcJunc = srcJunc;
-		this.destJunc = destJunc;
 		if (maxSpeed < 0) {
 			throw new IllegalArgumentException("maxSpeed en la clase constructora Road es negativa");
 		} else if (contLimit < 0) {
@@ -37,13 +35,14 @@ public abstract class Road extends SimulatedObject {
 		} else if (weather != null) {
 			throw new IllegalArgumentException("weather en la clase constructora Road es null");
 		}
+		this.srcJunc = srcJunc;
+		this.destJunc = destJunc;
 	}
 
 	void enter(Vehicle v) {
 		if (v.getSpeed() > 0 || v.getLocation() > 0)
 			throw new IllegalArgumentException("Error");
 		vehicles.add(v);
-		//TODO m.odificar clase para que añada en orden
 	}
 
 	void exit(Vehicle v) {
@@ -74,9 +73,6 @@ public abstract class Road extends SimulatedObject {
 		totalCO2 += c;
 	}
 
-	public Junction getDest() {
-		return destJunc;
-	}
 
 	@Override
 	void advance(int time) {
