@@ -1,5 +1,7 @@
 package simulator.model;
 
+import static org.junit.Assert.assertTrue;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -11,7 +13,6 @@ public class Vehicle extends SimulatedObject {
 	private List<Junction> itinerary;
 	private int maxSpeed;
 	private int speed;
-	private int distance;
 	private VehicleStatus status;
 	private Road road;
 	private int location;
@@ -31,6 +32,8 @@ public class Vehicle extends SimulatedObject {
 			// Al menos 2
 			throw new IllegalArgumentException(
 					"el tamaño de itineray.size() en la clase constructora Vehiculo no es al menos 2");
+		} else if (maxSpeed <= 0) {
+			throw new IllegalArgumentException("maxSpeed debe de ser postiva");
 		}
 		this.itinerary = Collections.unmodifiableList(new ArrayList<>(itinerary));
 		lastJunctionIndex = 0;
@@ -117,7 +120,9 @@ public class Vehicle extends SimulatedObject {
 		if (speed < 0) {
 			throw new IllegalArgumentException("Speed es negativa");
 		}
-		this.speed = Math.min(speed, maxSpeed);
+		if (status == VehicleStatus.TRAVELING) {
+			this.speed = Math.min(speed, maxSpeed);
+		}	
 	}
 
 	public VehicleStatus getStatus() {
@@ -166,15 +171,15 @@ public class Vehicle extends SimulatedObject {
 	@Override
 	public JSONObject report() {
 		JSONObject j = new JSONObject();
-		j.put("id", _id);
-		j.put("speed", speed);
-		j.put("distance", distance);
-		j.put("co2", totalCO2);
-		j.put("class", contClass);
-		j.put("status", status);
+		j.put("id", _id.toString());
+		j.put("speed", (int)speed);
+		j.put("distance", (int)totalDistance);
+		j.put("co2", (int)totalCO2);
+		j.put("class", (int)contClass);
+		j.put("status", status.toString());
 		if (!(status == VehicleStatus.PENDING || status == VehicleStatus.ARRIVED)) {
-			j.put("road", road);
-			j.put("location", location);
+			j.put("road", road.toString());
+			j.put("location", (int)location);
 		}
 		return j;
 	}

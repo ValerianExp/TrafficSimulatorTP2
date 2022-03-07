@@ -7,6 +7,9 @@ public abstract class SimulatedObject {
 	protected String _id;
 
 	SimulatedObject(String id) {
+		if (id == null || id == "") {
+			throw new IllegalArgumentException("id no puede ser null");
+		} 
 		_id = id;
 	}
 
