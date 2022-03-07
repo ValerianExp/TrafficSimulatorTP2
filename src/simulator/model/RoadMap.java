@@ -33,7 +33,7 @@ public class RoadMap {
 	}
 	void addRoad(Road r) {
 		if(roadMap.containsKey(r.getId())) throw new IllegalArgumentException("Road ya existente");
-		if(!junctionMap.containsKey(r.getDestJunc().getId()) || !junctionMap.containsKey(r.getSrcJunc().getId()))
+		if(!junctionMap.containsKey(r.getDest().getId()) || !junctionMap.containsKey(r.getSrc().getId()))
 				throw new IllegalArgumentException("Road sin junctions existentes");
 		roadList.add(r);
 		roadMap.put(r.getId(), r);		

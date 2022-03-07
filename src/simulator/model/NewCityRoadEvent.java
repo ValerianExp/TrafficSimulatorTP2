@@ -24,7 +24,7 @@ public class NewCityRoadEvent extends Event {
 
 	@Override
 	void execute(RoadMap map) {
-		CityRoad cr = new CityRoad(id,map.getJunction(srcJunc), map.getJunction(destJunc), length, co2Limit, maxSpeed, weather);
+		CityRoad cr = new CityRoad(id,map.getJunction(srcJunc), map.getJunction(destJunc), maxSpeed, co2Limit, length, weather);
 		map.addRoad(cr);
 	}
 
