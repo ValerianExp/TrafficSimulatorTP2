@@ -1,7 +1,5 @@
 package simulator.model;
 
-import static org.junit.Assert.assertTrue;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -57,7 +55,7 @@ public class Vehicle extends SimulatedObject {
 			totalDistance += location - oldLocation;
 			if (location >= road.getLength()) {
 				Junction j;
-				j = road.getDestJunc();
+				j = road.getDest();
 				j.enter(this);
 				status = VehicleStatus.WAITING;
 			}
@@ -73,6 +71,7 @@ public class Vehicle extends SimulatedObject {
 			if(road != null) {
 				road.enter(this);
 			}
+			//road.updateSpeedLimit();
 			//itinerary.get(lastJunctionIndex).roadTo(itinerary.get(lastJunctionIndex + 1)).enter(this);
 			//setLocation(0);
 			this.status = VehicleStatus.TRAVELING;
@@ -85,11 +84,12 @@ public class Vehicle extends SimulatedObject {
 				
 			} else {
 				road.exit(this);
-				road.getDestJunc().roadTo(itinerary.get(lastJunctionIndex + 1)).enter(this);
+				road.getDest().roadTo(itinerary.get(lastJunctionIndex + 1)).enter(this);
 				lastJunctionIndex++;
 				//setLocation(0);
 			}
-			
+			//road.updateSpeedLimit();
+		
 		} else {
 			throw new IllegalArgumentException("Estado del coche erroneo");
 		}

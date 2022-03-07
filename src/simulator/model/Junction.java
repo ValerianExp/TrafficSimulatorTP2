@@ -46,7 +46,7 @@ public class Junction extends SimulatedObject {
 	}
 
 	void addIncomingRoad(Road r) {
-		if (!r.getDestJunc().equals(this))
+		if (!r.getDest().equals(this))
 			throw new IllegalArgumentException("Error: no es una carretera entrante");
 		incomingRoads.add(r);
 		LinkedList<Vehicle> list = new LinkedList<Vehicle>();

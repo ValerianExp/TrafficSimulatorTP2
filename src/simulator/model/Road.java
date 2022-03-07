@@ -23,12 +23,11 @@ public abstract class Road extends SimulatedObject {
 
 	Road(String id, Junction srcJunc, Junction destJunc, int maxSpeed, int contLimit, int length, Weather weather) {
 		super(id);
-
-		if (maxSpeed < 0) {
+		if (maxSpeed <= 0) {
 			throw new IllegalArgumentException("maxSpeed en la clase constructora Road es negativa");
-		} else if (contLimit < 0) {
+		} else if (contLimit <= 0) {
 			throw new IllegalArgumentException("contLimit en la clase constructora Road es negativa");
-		} else if (length < 0) {
+		} else if (length <= 0) {
 			throw new IllegalArgumentException("length en la clase constructora Road es negativa");
 		} else if (srcJunc == null) {
 			throw new IllegalArgumentException("srcJunc en la clase constructora Road es null");
@@ -46,7 +45,7 @@ public abstract class Road extends SimulatedObject {
 		this.weather = weather;
 		srcJunc.addOutGoingRoad(this);
 		destJunc.addIncomingRoad(this);
-		
+		updateSpeedLimit();
 	}
 
 	void enter(Vehicle v) {
@@ -102,17 +101,17 @@ public abstract class Road extends SimulatedObject {
 			if (v1.getLocation() == v2.getLocation())
 				return 0;
 			else if (v1.getLocation() < v2.getLocation())
-				return -1;
-			else
 				return 1;
+			else
+				return -1;
 		}
 	}
 
-	public Junction getSrcJunc() {
+	public Junction getSrc() {
 		return srcJunc;
 	}
 
-	public Junction getDestJunc() {
+	public Junction getDest() {
 		return destJunc;
 	}
 
@@ -145,14 +144,15 @@ public abstract class Road extends SimulatedObject {
 		JSONObject j = new JSONObject();
 		JSONArray vehiclesArray = new JSONArray();
 
-		j.put("id", _id);
-		j.put("speedlimit", speedLimit);
-		j.put("weather", weather);
-		j.put("co2", totalCO2);
+		j.put("speedlimit", (int)speedLimit);
+		j.put("co2", (int)totalCO2);
+		j.put("weather", weather.toString());
+
 		for (Vehicle v : vehicles) {
-			vehiclesArray.put(v);
+			vehiclesArray.put(v.getId().toString());
 		}
 		j.put("vehicles", vehiclesArray);
+		j.put("id", _id.toString());
 
 		return j;
 	}

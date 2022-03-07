@@ -8,15 +8,15 @@ public class CityRoad extends Road {
 
     @Override
     public void reduceTotalContamination() {
-    	if (totalCO2 - getWeather().getInterContam() > 0) {
-    		totalCO2 -= getWeather().getInterContam();
+    	if (totalCO2 - getWeather().getUrbanContam() > 0) {
+    		totalCO2 -= getWeather().getUrbanContam();
 		}
     }
 
     @Override
     public void updateSpeedLimit() {
         //La velocidad no cambia, siempre es la la velocidad maxima;
-            speedLimit = maxSpeed;
+            this.speedLimit = this.maxSpeed;
     }
 
     @Override
