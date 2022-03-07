@@ -66,7 +66,7 @@ public class Vehicle extends SimulatedObject {
 		setSpeed(0);
 		setLocation(0);
 		if (status == VehicleStatus.PENDING) {
-			road = itinerary.get(lastJunctionIndex).roadTo(itinerary.get(lastJunctionIndex));
+			road = itinerary.get(lastJunctionIndex).roadTo(itinerary.get(lastJunctionIndex + 1));
 
 			if(road != null) {
 				road.enter(this);
