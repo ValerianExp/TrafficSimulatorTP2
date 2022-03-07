@@ -56,7 +56,7 @@ public class Junction extends SimulatedObject {
 
 	void addOutGoingRoad(Road r) {
 		//Junction j = r.getDestJunc();
-		outgoingRoads.put(this, r);
+		outgoingRoads.put(r.getDest(), r);
 		
 		//TODO cambiar la exception
 		/*
