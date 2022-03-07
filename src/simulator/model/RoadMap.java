@@ -92,7 +92,7 @@ public class RoadMap {
 		for(Road x: roadList) {
 			roadJSON.put(x.report());
 		}
-		j.put("road", roadJSON);
+		j.put("roads", roadJSON);
 		
 		for(Vehicle x: vehicleList) {
 			vehicleJSON.put(x.report());
