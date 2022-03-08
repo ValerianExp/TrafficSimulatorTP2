@@ -20,7 +20,6 @@ import simulator.model.NewJunctionEvent;
 import simulator.model.NewSetContClassEvent;
 import simulator.model.NewVehicleEvent;
 import simulator.model.RoundRobinStrategy;
-import simulator.model.SetContClassEvent;
 import simulator.model.SetWeatherEvent;
 
 class BuilderBasedFactoryTest {
