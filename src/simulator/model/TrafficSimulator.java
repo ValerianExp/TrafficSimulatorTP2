@@ -22,13 +22,23 @@ public class TrafficSimulator {
 	
 	public void advance(){
 		time++;
-		
+		/*
 		for(Event e: eventList) {
 			if(e.getTime() == time) {
 				e.execute(roadMap);
 				eventList.remove(e);
 			}
 		}
+		*/
+		
+		for (int i = 0; i < eventList.size(); i++) {
+			Event e = eventList.get(i);
+			if(e.getTime() == time) {
+				e.execute(roadMap);
+				eventList.remove(e);
+			}
+		}
+		
 		
 		for(Junction j: roadMap.getJunctions()) {
 			j.advance(time);

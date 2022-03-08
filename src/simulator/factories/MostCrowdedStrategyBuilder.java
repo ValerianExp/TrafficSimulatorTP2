@@ -18,7 +18,7 @@ public class MostCrowdedStrategyBuilder extends Builder<LightSwitchingStrategy>{
 			if(data.has("timeslot")) {
 				m = new MostCrowdedStrategy(data.getInt("timeslot"));
 			}else {
-				m = new MostCrowdedStrategy(1);
+				m = new MostCrowdedStrategy((int)1);
 			}
 		}
 		

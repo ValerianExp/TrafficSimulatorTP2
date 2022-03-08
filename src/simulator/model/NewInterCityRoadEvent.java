@@ -24,7 +24,7 @@ public class NewInterCityRoadEvent extends Event {
 
 	@Override
 	void execute(RoadMap map) {
-		InterCityRoad icr = new InterCityRoad(id,map.getJunction(srcJunc), map.getJunction(destJunc), length, co2Limit, maxSpeed, weather);
+		InterCityRoad icr = new InterCityRoad(id,map.getJunction(srcJunc), map.getJunction(destJunc), maxSpeed, co2Limit, length, weather);
 		map.addRoad(icr);
 	}
 

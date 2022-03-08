@@ -18,7 +18,7 @@ public class NewSetContClassEvent extends Event {
 		for(Pair<String, Integer> p: cs) {
 			Vehicle v = map.getVehicle(p.getFirst());
 			if (v == null) throw new IllegalArgumentException("No existe ese vehicle en el par");
-			v.setContaminationClass(p.getSecond());
+			v.setContClass(p.getSecond());
 		}
 		
 	}
