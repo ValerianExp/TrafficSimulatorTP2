@@ -27,7 +27,7 @@ public class Controller {
 	
 	public void loadEvents(InputStream in) {
 		JSONObject jo = new JSONObject(new JSONTokener(in));
-		if(!jo.has("events")) { //TODO Comprobar que jo length != 1?
+		if(jo.has("events")) {
 			JSONArray eventsArray = jo.getJSONArray("events");
 			
 			for(int i = 0; i < eventsArray.length(); i++) {

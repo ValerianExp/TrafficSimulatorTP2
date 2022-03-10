@@ -92,7 +92,13 @@ public class Main {
 	}
 
 	private static void parseTimeOption(CommandLine line) {
-		time = Integer.parseInt(line.getOptionValue("t"));
+		String  t = line.getOptionValue("t");
+		if (t == null) {
+			time = _timeLimitDefaultValue;
+		}
+		else{
+			time = Integer.parseInt(t);
+		}
 		
 	}
 	

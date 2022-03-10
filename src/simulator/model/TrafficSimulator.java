@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.json.JSONObject;
 
+import simulator.misc.SortedArrayList;
+
 public class TrafficSimulator {
 	private RoadMap roadMap;
 	private List<Event> eventList;
@@ -12,7 +14,7 @@ public class TrafficSimulator {
 	
 	public TrafficSimulator(){
 		roadMap = new RoadMap();
-		eventList = new ArrayList<Event>();
+		eventList = new SortedArrayList<Event>();
 		time = 0;
 	}
 	
@@ -30,14 +32,23 @@ public class TrafficSimulator {
 			}
 		}
 		*/
-		
+		/*
+		 
 		for (int i = 0; i < eventList.size(); i++) {
+
 			Event e = eventList.get(i);
 			if(e.getTime() == time) {
 				e.execute(roadMap);
 				eventList.remove(e);
 			}
+		int j = 0;
+		 */
+		while(eventList.size() > 0 && eventList.get(0).getTime() == time) {
+			Event e = eventList.get(0);
+			eventList.remove(e);
+			e.execute(roadMap);
 		}
+		
 		
 		
 		for(Junction j: roadMap.getJunctions()) {

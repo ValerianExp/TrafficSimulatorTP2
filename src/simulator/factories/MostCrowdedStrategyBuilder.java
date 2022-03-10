@@ -20,6 +20,8 @@ public class MostCrowdedStrategyBuilder extends Builder<LightSwitchingStrategy>{
 			}else {
 				m = new MostCrowdedStrategy((int)1);
 			}
+		} else {
+			m = new MostCrowdedStrategy((int)1);
 		}
 		
 		return m;

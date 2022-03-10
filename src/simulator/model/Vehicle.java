@@ -57,14 +57,13 @@ public class Vehicle extends SimulatedObject {
 				Junction j;
 				j = road.getDest();
 				j.enter(this);
+				setSpeed(0);
 				status = VehicleStatus.WAITING;
 			}
 		} 
 	}
 
 	void moveToNextRoad() {
-		setSpeed(0);
-		setLocation(0);
 		if (status == VehicleStatus.PENDING) {
 			road = itinerary.get(lastJunctionIndex).roadTo(itinerary.get(lastJunctionIndex + 1));
 
@@ -76,6 +75,8 @@ public class Vehicle extends SimulatedObject {
 			//setLocation(0);
 			this.status = VehicleStatus.TRAVELING;
 			lastJunctionIndex++;
+			setSpeed(0);
+			setLocation(0);
 			
 		} else if (status == VehicleStatus.WAITING) {
 			if (lastJunctionIndex + 1 == itinerary.size()) {
@@ -84,8 +85,14 @@ public class Vehicle extends SimulatedObject {
 				
 			} else {
 				road.exit(this);
-				road.getDest().roadTo(itinerary.get(lastJunctionIndex + 1)).enter(this);
+				Road r = road.getDest().roadTo(itinerary.get(lastJunctionIndex + 1));
+				this.road = r;
+				this.status = VehicleStatus.TRAVELING;
+				setSpeed(0);
+				setLocation(0);
+				road.enter(this);
 				lastJunctionIndex++;
+
 				//setLocation(0);
 			}
 			//road.updateSpeedLimit();
@@ -122,7 +129,8 @@ public class Vehicle extends SimulatedObject {
 		}
 		if (status == VehicleStatus.TRAVELING) {
 			this.speed = Math.min(speed, maxSpeed);
-		}	
+		}
+
 	}
 
 	public VehicleStatus getStatus() {

@@ -67,6 +67,7 @@ public class Junction extends SimulatedObject {
 
 	@Override
 	void advance(int time) {
+		if(this.greenLightIndex != -1) {
 		List<Vehicle> vList = dqStrategy.dequeue(queueList.get(greenLightIndex));
 
 		Vehicle v;
@@ -76,7 +77,7 @@ public class Junction extends SimulatedObject {
 		}
 
 		queueList.get(greenLightIndex).removeAll(vList);
-
+		}
 		//  Si es distinto del índice
 		// actual, entonces cambia el valor del índice al nuevo valor y pone el último paso de cambio de semáforo al paso actual (es decir, el valor del parámetro time).
 		int aux = lsStrategy.chooseNextGreen(incomingRoads, queueList, greenLightIndex, lastSwitchStep, time);
