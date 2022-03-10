@@ -7,7 +7,7 @@ import simulator.model.RoundRobinStrategy;
 
 public class RoundRobinStrategyBuilder extends Builder<LightSwitchingStrategy>{
 
-	private RoundRobinStrategy r;
+	private RoundRobinStrategy r = new RoundRobinStrategy(1);
 	
 	public RoundRobinStrategyBuilder() {
 		super("round_robin_lss");
@@ -15,12 +15,8 @@ public class RoundRobinStrategyBuilder extends Builder<LightSwitchingStrategy>{
 
 	@Override
 	protected LightSwitchingStrategy createTheInstance(JSONObject data) {
-		if(data != null) {
-			if(data.has("timeslot")) {
+		if(data != null && data.has("timeslot")) {
 				r = new RoundRobinStrategy(data.getInt("timeslot"));
-			}else {
-				r = new RoundRobinStrategy(1);
-			}
 		}
 		
 		return r;
