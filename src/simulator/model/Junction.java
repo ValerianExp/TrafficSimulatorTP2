@@ -1,5 +1,6 @@
 package simulator.model;
 
+import java.awt.RenderingHints;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -124,6 +125,26 @@ public class Junction extends SimulatedObject {
 			return r;
 		//else
 			//return null;
+	}
+
+	public int getX() {
+		// TODO Auto-generated method stub
+		return xCoor;
+	}
+
+	public int getY() {
+		// TODO Auto-generated method stub
+		return yCoor;
+	}
+
+	public int getGreenLightIndex() {
+		// TODO Auto-generated method stub
+		return greenLightIndex;
+	}
+
+	public List<Road> getInRoads() {
+		// TODO Auto-generated method stub
+		return incomingRoads;
 	}
 
 }
