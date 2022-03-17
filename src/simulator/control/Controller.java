@@ -52,7 +52,6 @@ public class Controller {
 		try(PrintStream printer = new PrintStream(out)){
 			printer.println(states.toString(3));
 		}
-//TODO Esto hace falta?
 	}
 	
 	public void reset() {

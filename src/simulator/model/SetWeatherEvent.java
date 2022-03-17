@@ -24,4 +24,6 @@ public class SetWeatherEvent extends Event{
 		}
 		
 	}
+	
+	//TODO esto no tiene id
 }

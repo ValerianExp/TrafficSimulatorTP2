@@ -23,4 +23,12 @@ public class NewSetContClassEvent extends Event {
 		
 	}
 	
+	@Override
+	public String toString() {
+		
+		return "new set cont class '" + 
+		//TODO id en esta clase
+		"'";
+	}
+	
 }
