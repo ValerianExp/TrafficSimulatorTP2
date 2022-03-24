@@ -9,6 +9,8 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.SwingUtilities;
+
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
@@ -35,6 +37,7 @@ import simulator.model.DequeuingStrategy;
 import simulator.model.Event;
 import simulator.model.LightSwitchingStrategy;
 import simulator.model.TrafficSimulator;
+import simulator.view.MainWindow;
 
 public class Main {
 
@@ -42,7 +45,7 @@ public class Main {
 	private static String _inFile = null;
 	private static String _outFile = null;
 	private static Factory<Event> _eventsFactory = null;
-	private static int time=_timeLimitDefaultValue;
+	private static int time = _timeLimitDefaultValue;
 
 	private static void parseArgs(String[] args) {
 
@@ -55,11 +58,11 @@ public class Main {
 		CommandLineParser parser = new DefaultParser();
 		try {
 			CommandLine line = parser.parse(cmdLineOptions, args);
+			parseGUIOption(line);
 			parseHelpOption(line, cmdLineOptions);
 			parseInFileOption(line);
 			parseOutFileOption(line);
 			parseTimeOption(line);
-
 			// if there are some remaining arguments, then something wrong is
 			// provided in the command line!
 			//
@@ -71,13 +74,12 @@ public class Main {
 				throw new ParseException(error);
 			}
 
-		} catch (ParseException e) {
+		} catch (ParseException | IOException e) {
 			System.err.println(e.getLocalizedMessage());
 			System.exit(1);
 		}
 
 	}
-
 
 	private static Options buildOptions() {
 		Options cmdLineOptions = new Options();
@@ -86,28 +88,40 @@ public class Main {
 		cmdLineOptions.addOption(
 				Option.builder("o").longOpt("output").hasArg().desc("Output file, where reports are written.").build());
 		cmdLineOptions.addOption(Option.builder("h").longOpt("help").desc("Print this message").build());
-		cmdLineOptions.addOption(Option.builder("t").longOpt("ticks").hasArg().desc("Ticks to the simulator's main loop (default value is 10)").build());
-
+		cmdLineOptions.addOption(Option.builder("t").longOpt("ticks").hasArg()
+				.desc("Ticks to the simulator's main loop (default value is 10)").build());
+		cmdLineOptions.addOption(Option.builder("m").longOpt("mode").hasArg()
+				.desc("GUI mode").build());
 		return cmdLineOptions;
 	}
 
 	private static void parseTimeOption(CommandLine line) {
-		String  t = line.getOptionValue("t");
+		String t = line.getOptionValue("t");
 		if (t == null) {
 			time = _timeLimitDefaultValue;
-		}
-		else{
+		} else {
 			time = Integer.parseInt(t);
 		}
-		
+
 	}
-	
+
 	private static void parseHelpOption(CommandLine line, Options cmdLineOptions) {
 		if (line.hasOption("h")) {
 			HelpFormatter formatter = new HelpFormatter();
 			formatter.printHelp(Main.class.getCanonicalName(), cmdLineOptions, true);
 			System.exit(0);
 		}
+	}
+
+	private static void parseGUIOption(CommandLine line) throws ParseException, IOException {
+		//String s = line.getOptionValue("m");
+		/*
+		if (s != "console" && s != "gui") {
+			throw new ParseException("Comand invalid");
+		}
+		
+		 */
+		startGUIMode();
 	}
 
 	private static void parseInFileOption(CommandLine line) throws ParseException {
@@ -124,44 +138,67 @@ public class Main {
 	private static void initFactories() {
 
 		ArrayList<Builder<LightSwitchingStrategy>> lsbs = new ArrayList<>();
-		lsbs.add( new RoundRobinStrategyBuilder() );
-		lsbs.add( new MostCrowdedStrategyBuilder() );
+		lsbs.add(new RoundRobinStrategyBuilder());
+		lsbs.add(new MostCrowdedStrategyBuilder());
 		Factory<LightSwitchingStrategy> lssFactory = new BuilderBasedFactory<>(lsbs);
-		
+
 		ArrayList<Builder<DequeuingStrategy>> dqbs = new ArrayList<>();
-		dqbs.add( new MoveFirstStrategyBuilder() );
-		dqbs.add( new MoveAllStrategyBuilder() );
-		Factory<DequeuingStrategy> dqsFactory = new BuilderBasedFactory<>(dqbs); 
-		
-		
+		dqbs.add(new MoveFirstStrategyBuilder());
+		dqbs.add(new MoveAllStrategyBuilder());
+		Factory<DequeuingStrategy> dqsFactory = new BuilderBasedFactory<>(dqbs);
+
 		ArrayList<Builder<Event>> ebs = new ArrayList<>();
-		ebs.add( new NewJunctionEventBuilder(lssFactory,dqsFactory) );
-		ebs.add( new NewCityRoadEventBuilder() );
-		ebs.add( new NewInterCityRoadEventBuilder() );
-		ebs.add( new NewVehicleEventBuilder() );
-		ebs.add( new SetContClassEventBuilder() );
-		ebs.add( new SetWeatherEventBuilder() );
+		ebs.add(new NewJunctionEventBuilder(lssFactory, dqsFactory));
+		ebs.add(new NewCityRoadEventBuilder());
+		ebs.add(new NewInterCityRoadEventBuilder());
+		ebs.add(new NewVehicleEventBuilder());
+		ebs.add(new SetContClassEventBuilder());
+		ebs.add(new SetWeatherEventBuilder());
 		BuilderBasedFactory<Event> bbf = new BuilderBasedFactory<Event>(ebs);
-		
+
 		_eventsFactory = bbf;
-		
 
 	}
 
 	private static void startBatchMode() throws IOException {
 		InputStream input = new FileInputStream(new File(_inFile));
 		OutputStream output;
-		if(_outFile == null) output = System.out;
-		else output = new FileOutputStream(new File(_outFile));
+		if (_outFile == null)
+			output = System.out;
+		else
+			output = new FileOutputStream(new File(_outFile));
 		Controller controller = new Controller(new TrafficSimulator(), _eventsFactory);
 		controller.loadEvents(input);
 		controller.run(time, output);
 	}
 
+	private static void startGUIMode() throws IOException {
+		// TODO completar
+		// if (true) {
+		// InputStream input = new FileInputStream(new File(_inFile));
+		// OutputStream output = new FileOutputStream(new File(_outFile)); No hay
+		Controller controller = new Controller(new TrafficSimulator(), _eventsFactory);
+		// controller.loadEvents(input); Cargar archivos
+		// controller.run(time, output); Play
+		MainWindow mw = new MainWindow(controller);
+		// }
+		/*
+		
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				new MainWindow(controller);
+			}
+		});
+		 */
+	}
+
 	private static void start(String[] args) throws IOException {
 		initFactories();
 		parseArgs(args);
-		startBatchMode();
+		// startBatchMode();
+		startGUIMode();
+
 	}
 
 	// example command lines:
