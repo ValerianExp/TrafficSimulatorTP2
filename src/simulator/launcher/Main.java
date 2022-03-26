@@ -46,7 +46,8 @@ public class Main {
 	private static String _outFile = null;
 	private static Factory<Event> _eventsFactory = null;
 	private static int time = _timeLimitDefaultValue;
-
+	private static String _model = "";
+	
 	private static void parseArgs(String[] args) {
 
 		// define the valid command line options
@@ -88,10 +89,8 @@ public class Main {
 		cmdLineOptions.addOption(
 				Option.builder("o").longOpt("output").hasArg().desc("Output file, where reports are written.").build());
 		cmdLineOptions.addOption(Option.builder("h").longOpt("help").desc("Print this message").build());
-		cmdLineOptions.addOption(Option.builder("t").longOpt("ticks").hasArg()
-				.desc("Ticks to the simulator's main loop (default value is 10)").build());
-		cmdLineOptions.addOption(Option.builder("m").longOpt("mode").hasArg()
-				.desc("GUI mode").build());
+		cmdLineOptions.addOption(Option.builder("t").longOpt("ticks").hasArg().desc("Ticks to the simulator's main loop (default value is 10)").build());
+		cmdLineOptions.addOption(Option.builder("m").longOpt("mode").hasArg().build());
 		return cmdLineOptions;
 	}
 
@@ -114,14 +113,12 @@ public class Main {
 	}
 
 	private static void parseGUIOption(CommandLine line) throws ParseException, IOException {
-		//String s = line.getOptionValue("m");
-		/*
-		if (s != "console" && s != "gui") {
-			throw new ParseException("Comand invalid");
+		String s = line.getOptionValue("m");
+		_model = s;
+		if (_model == null) {
+			_model = "gui";
 		}
-		
-		 */
-		startGUIMode();
+//		startGUIMode();
 	}
 
 	private static void parseInFileOption(CommandLine line) throws ParseException {
@@ -170,19 +167,21 @@ public class Main {
 		Controller controller = new Controller(new TrafficSimulator(), _eventsFactory);
 		controller.loadEvents(input);
 		controller.run(time, output);
+		input.close();
 	}
 
 	private static void startGUIMode() throws IOException {
-		// TODO completar
-		// if (true) {
-		// InputStream input = new FileInputStream(new File(_inFile));
-		// OutputStream output = new FileOutputStream(new File(_outFile)); No hay
-		Controller controller = new Controller(new TrafficSimulator(), _eventsFactory);
-		// controller.loadEvents(input); Cargar archivos
-		// controller.run(time, output); Play
-		MainWindow mw = new MainWindow(controller);
-		// }
-		/*
+		
+		TrafficSimulator sim = new TrafficSimulator();
+		Controller controller = new Controller(sim, _eventsFactory);
+		
+		//controller.setNumPasos(_timeLimit);
+
+		if(_inFile != null) {
+			InputStream in = new FileInputStream(new File(_inFile));
+			controller.loadEvents(in);
+			in.close();
+		}
 		
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
@@ -190,15 +189,18 @@ public class Main {
 				new MainWindow(controller);
 			}
 		});
-		 */
 	}
 
 	private static void start(String[] args) throws IOException {
 		initFactories();
 		parseArgs(args);
-		// startBatchMode();
-		startGUIMode();
-
+		
+		if(_model == "console") {
+			startBatchMode();
+		}
+		else {
+			startGUIMode();
+		}
 	}
 
 	// example command lines:
@@ -210,6 +212,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		try {
+			
 			start(args);
 		} catch (Exception e) {
 			e.printStackTrace();
