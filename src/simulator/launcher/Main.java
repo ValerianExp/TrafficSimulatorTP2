@@ -59,9 +59,9 @@ public class Main {
 		CommandLineParser parser = new DefaultParser();
 		try {
 			CommandLine line = parser.parse(cmdLineOptions, args);
-			parseHelpOption(line, cmdLineOptions);
 			parseGUIOption(line);
- 			parseInFileOption(line);
+			parseHelpOption(line, cmdLineOptions);
+			parseInFileOption(line);
 			parseOutFileOption(line);
 			parseTimeOption(line);
 			// if there are some remaining arguments, then something wrong is
@@ -123,7 +123,7 @@ public class Main {
 
 	private static void parseInFileOption(CommandLine line) throws ParseException {
 		_inFile = line.getOptionValue("i");
-		if (_inFile == null && _model.equals("")) {
+		if (_inFile == null) {
 			throw new ParseException("An events file is missing");
 		}
 	}
@@ -176,14 +176,13 @@ public class Main {
 		Controller controller = new Controller(sim, _eventsFactory);
 		
 		//controller.setNumPasos(_timeLimit);
-		
-		/*
+
 		if(_inFile != null) {
 			InputStream in = new FileInputStream(new File(_inFile));
 			controller.loadEvents(in);
 			in.close();
 		}
-		*/
+		
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
@@ -196,10 +195,10 @@ public class Main {
 		initFactories();
 		parseArgs(args);
 		
-		if(_model.equals("console")) {
+		if(_model == "console") {
 			startBatchMode();
 		}
-		else if(_model.equals("gui")){
+		else {
 			startGUIMode();
 		}
 	}

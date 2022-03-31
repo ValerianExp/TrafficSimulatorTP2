@@ -10,7 +10,7 @@ import simulator.model.Event;
 import simulator.model.RoadMap;
 import simulator.model.TrafficSimObserver;
 
-public class StatusBar extends JPanel implements  TrafficSimObserver {
+public class StatusBar extends JPanel implements TrafficSimObserver {
 
 	public StatusBar(Controller _ctrl) {
 		// TODO Auto-generated constructor stub
