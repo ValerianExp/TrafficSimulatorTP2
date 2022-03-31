@@ -21,9 +21,13 @@ class MyDialogWindow extends JDialog {
 
 	private int _status;
 	private JComboBox<Dish> _dishes;
+	//Una lista de elementos que tendra el comboBox
+	//Si hay cambios se actualiza la lista
+	//El comboBox actualizara los cambios
 	private DefaultComboBoxModel<Dish> _dishesModel;
 
 	public MyDialogWindow(Frame parent) {
+		//Encima de la otra componente, para eso sirve hace el super. En este caso
 		super(parent, true);
 		initGUI();
 	}
@@ -31,9 +35,10 @@ class MyDialogWindow extends JDialog {
 	private void initGUI() {
 
 		_status = 0;
-
+		
 		setTitle("Food Selector");
 		JPanel mainPanel = new JPanel();
+		//Alineado en vertical
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 		setContentPane(mainPanel);
 

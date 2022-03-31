@@ -18,7 +18,7 @@ public class DialogWindowExample extends JFrame {
 	private void initGUI() {
 
 		JPanel mainPanel = new JPanel();
-		this.setContentPane(mainPanel);
+		this.setContentPane(mainPanel);//this.add(mainPanel);
 
 		mainPanel.add(new JLabel("Click "));
 		JButton here = new JButton("HERE");
@@ -46,14 +46,17 @@ public class DialogWindowExample extends JFrame {
 		// in order to get the parent JFrame. Then pass it to the constructor
 		// of MyDialogWindow instead of 'this'
 		//
-
+		
+		//En nuestro caso sera el panel de Control, ventanita del co2 y el weather
 		MyDialogWindow dialog = new MyDialogWindow(this);
+		//Otra manera:En el cosntructor en otro caso se tendría que pasar la lista de coches y carreteras
+		//Como traemos la lista, panel de control es el observer, y casi todas las funciones tienen roadMap como parametro
 
 		List<Dish> dishes = new ArrayList<Dish>();
 		for (int i = 0; i < 10; i++) {
 			dishes.add(new Dish("Yum Yum " + i));
 		}
-
+		//Otra manera: un getter en el estado
 		int status = dialog.open(dishes);
 
 		if (status == 0) {
