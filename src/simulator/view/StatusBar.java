@@ -1,8 +1,11 @@
 package simulator.view;
 
+import java.awt.BorderLayout;
 import java.awt.Component;
 import java.util.List;
 
+import javax.swing.BoxLayout;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import simulator.control.Controller;
@@ -15,8 +18,20 @@ public class StatusBar extends JPanel implements TrafficSimObserver {
 	public StatusBar(Controller _ctrl) {
 		// TODO Auto-generated constructor stub
 		_ctrl.addObserver(this);
+		initGUI();
 	}
 
+	
+	private void initGUI() {
+		this.setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
+		
+		
+		JLabel time = new JLabel("Time: ");
+		this.add(time);
+		
+	}
+	
+	
 	@Override
 	public void onAdvanceStart(RoadMap map, List<Event> events, int time) {
 		// TODO Auto-generated method stub

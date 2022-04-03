@@ -18,6 +18,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JToolBar;
+import javax.swing.SpinnerNumberModel;
 
 import simulator.control.Controller;
 import simulator.model.Event;
@@ -59,13 +60,14 @@ public class ControlPanel extends JPanel implements TrafficSimObserver	{
 		JButton stopButton= new JButton();
 		stopButton.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().createImage("resources\\icons\\stop.png")));
 		panel.add(stopButton);
+		stopButton.setToolTipText("Open file");
 		
 		JLabel ticksLabel = new JLabel("Ticks: ");
 		panel.add(ticksLabel);
 		
-		JSpinner ticks = new JSpinner();
+		JSpinner ticks = new JSpinner(new SpinnerNumberModel(10, 0, 1000, 10));
+		ticks.setMinimumSize(new Dimension(100,200));
 		ticks.setMaximumSize(new Dimension(500,200));
-//		ticks.setMinimumSize(new Dimension(100,200));
 		panel.add(ticks);
 		
 //		panel.addSeparator(); 
