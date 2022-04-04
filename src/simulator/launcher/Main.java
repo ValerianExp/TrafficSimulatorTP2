@@ -123,7 +123,7 @@ public class Main {
 
 	private static void parseInFileOption(CommandLine line) throws ParseException {
 		_inFile = line.getOptionValue("i");
-		if (_inFile == null) {
+		if (_inFile == null && _model == null) {
 			throw new ParseException("An events file is missing");
 		}
 	}
