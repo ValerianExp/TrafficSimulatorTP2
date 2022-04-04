@@ -25,11 +25,11 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JSpinner;
 import javax.swing.JToolBar;
-<<<<<<< Updated upstream
+
 import javax.swing.SpinnerNumberModel;
-=======
+
 import javax.swing.SwingConstants;
->>>>>>> Stashed changes
+
 
 import simulator.control.Controller;
 import simulator.model.Event;
@@ -113,9 +113,6 @@ public class ControlPanel extends JPanel implements TrafficSimObserver	{
 		JLabel ticksLabel = new JLabel("Ticks: ");
 		panel.add(ticksLabel);
 		
-		JSpinner ticks = new JSpinner(new SpinnerNumberModel(10, 0, 1000, 10));
-		ticks.setMinimumSize(new Dimension(100,200));
-		ticks.setMaximumSize(new Dimension(500,200));
 		JSpinner ticks = new JSpinner();
 		ticks.setMinimumSize(new Dimension(100 , 40));
 		ticks.setMaximumSize(new Dimension (100, 40));
