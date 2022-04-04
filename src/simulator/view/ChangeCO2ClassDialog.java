@@ -37,6 +37,7 @@ public class ChangeCO2ClassDialog extends JDialog{
 		JComboBox<Vehicle> vehicleCB = new JComboBox<Vehicle>();
 		vehicleCB.setPreferredSize(new Dimension(100, 20));
 		
+		//TODO en un for se añaden los numeros del 1 al 10
 		JComboBox<Integer> co2Class = new JComboBox<Integer>();
 		co2Class.setPreferredSize(new Dimension(100, 20));
 		JLabel c = new JLabel();
@@ -46,6 +47,8 @@ public class ChangeCO2ClassDialog extends JDialog{
 		selectors.add(c);
 		selectors.add(co2Class);
 		this.pack();
+		
+		//TODO hacer los ticks
 	}
 	
 }
