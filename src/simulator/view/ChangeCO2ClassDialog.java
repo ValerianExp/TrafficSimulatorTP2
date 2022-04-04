@@ -19,6 +19,7 @@ public class ChangeCO2ClassDialog extends JDialog{
 	}
 
 	private void initGUI() {
+		//TODO reordenar
 		//TODO Esta mal, pero funciona
 		//Creo que hay que poner toptext, selectores, y botones
 		//En su propio JPanel de cada uno
@@ -33,22 +34,22 @@ public class ChangeCO2ClassDialog extends JDialog{
 		this.add(selectors, BorderLayout.CENTER);
 		JLabel v = new JLabel();
 		v.setText("Vehicle: ");
+		selectors.add(v);
 		//TODO Necesita la informacion de los vehicles
 		JComboBox<Vehicle> vehicleCB = new JComboBox<Vehicle>();
 		vehicleCB.setPreferredSize(new Dimension(100, 20));
-		
+		selectors.add(vehicleCB);
+		JLabel c = new JLabel();
+		c.setText("CO2 Class: ");
+		selectors.add(c);
 		//TODO en un for se añaden los numeros del 1 al 10
 		JComboBox<Integer> co2Class = new JComboBox<Integer>();
 		co2Class.setPreferredSize(new Dimension(100, 20));
-		JLabel c = new JLabel();
-		c.setText("CO2 Class: ");
-		selectors.add(v);
-		selectors.add(vehicleCB);
-		selectors.add(c);
 		selectors.add(co2Class);
 		this.pack();
 		
 		//TODO hacer los ticks
+		
 	}
 	
 }
