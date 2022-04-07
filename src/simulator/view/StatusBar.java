@@ -17,8 +17,8 @@ public class StatusBar extends JPanel implements TrafficSimObserver {
 
 	public StatusBar(Controller _ctrl) {
 		// TODO Auto-generated constructor stub
-		_ctrl.addObserver(this);
 		initGUI();
+		_ctrl.addObserver(this);
 	}
 
 	

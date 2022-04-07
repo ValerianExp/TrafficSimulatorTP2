@@ -1,5 +1,6 @@
 package simulator.view;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -9,28 +10,37 @@ import simulator.control.Controller;
 import simulator.model.Event;
 import simulator.model.RoadMap;
 import simulator.model.TrafficSimObserver;
+import simulator.model.Vehicle;
 
 public class VehiclesTableModel extends AbstractTableModel implements TrafficSimObserver{
 	private Controller _ctrl;
-	
+	private List<Vehicle> vl;
+	private String[] columns = {"Id", "Location", "Itinerary", "CO2 Class", "Max. Speed", "Speed", "Total CO2", "Distance"};
 	VehiclesTableModel(Controller ctrl) {
 		_ctrl = ctrl;
+		vl = new ArrayList<Vehicle>();
 	}
 	@Override
 	public int getRowCount() {
-		// TODO Auto-generated method stub
-		return 0;
+		return vl.size();
 	}
 
 	@Override
 	public int getColumnCount() {
-		// TODO Auto-generated method stub
-		return 0;
+		return 8;
+	}
+
+	@Override
+	public String getColumnName(int column) {
+		return columns[column];
 	}
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		// TODO Auto-generated method stub
+		switch(columnIndex) {
+		case 0:
+			return 0;
+		}
 		return null;
 	}
 

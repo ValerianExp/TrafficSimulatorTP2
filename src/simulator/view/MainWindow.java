@@ -46,17 +46,19 @@ public class MainWindow extends JFrame {
 		eventsView.setPreferredSize(new Dimension(500, 200));
 		tablesPanel.add(eventsView);
 		
-		JPanel VehiclesView = createViewPanel(new JTable(new VehiclesTableModel(_ctrl)), "Vehicles");
-		VehiclesView.setPreferredSize(new Dimension(500, 200));
-		tablesPanel.add(VehiclesView);
+		JPanel vehiclesView = createViewPanel(new JTable(new VehiclesTableModel(_ctrl)), "Vehicles");
+		vehiclesView.setPreferredSize(new Dimension(500, 200));
+		tablesPanel.add(vehiclesView);
 		
-		JPanel RoadsView = createViewPanel(new JTable(new RoadsTableModel(_ctrl)), "Roads");
-		RoadsView.setPreferredSize(new Dimension(500, 200));
-		tablesPanel.add(RoadsView);
+		JPanel roadsView = createViewPanel(new JTable(new RoadsTableModel(_ctrl)), "Roads");
+		roadsView.setPreferredSize(new Dimension(500, 200));
+		tablesPanel.add(roadsView);
 		
-		JPanel JunctionsView = createViewPanel(new JTable(new VehiclesTableModel(_ctrl)), "Junctions");
-		JunctionsView.setPreferredSize(new Dimension(500, 200));
-		tablesPanel.add(JunctionsView);
+		JPanel junctionsView = createViewPanel(new JTable(new JunctionsTableModel(_ctrl)), "Junctions");
+		junctionsView.setPreferredSize(new Dimension(500, 200));
+		tablesPanel.add(junctionsView);
+		
+		
 		// ...
 		// maps
 		JPanel mapView = createViewPanel(new MapComponent(_ctrl), "Map");
