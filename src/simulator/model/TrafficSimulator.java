@@ -13,7 +13,6 @@ public class TrafficSimulator implements Observable<TrafficSimObserver> {
 	private List<Event> eventList;
 	private int time;
 
-	// TODO hacer el onError
 
 	public TrafficSimulator() {
 		roadMap = new RoadMap();

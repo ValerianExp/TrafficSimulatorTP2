@@ -70,38 +70,30 @@ public class MapByRoadComponent extends JComponent implements TrafficSimObserver
 			g.setColor(Color.red);
 			g.drawString("No map yet!", getWidth() / 2 - 50, getHeight() / 2);
 		} else {
-			//updatePrefferedSize();
 			drawMap(g);
 		}
 	}
 
 	private void drawMap(Graphics g) {
-		drawRoads(g);
-//		drawVehicles(g);
-		//drawJunctions(g);
-	}
-	
-	private void drawRoads(Graphics g) {
 		for (int i=0;i<_map.getRoads().size();i++) {
 
 			int x1 = 50;
 			int x2 = getWidth()-100;
 			int y=(i+1)*50;
 
-			//LINEAS
+			//VEHICLES
+			drawVehicles(g,_map.getRoads().get(i),y);
+			
 			g.setColor(Color.BLACK);
 			g.drawLine(x1, y, x2, y);
 			g.drawString(_map.getRoads().get(i).getId(), x1-40, y);
-			
-			//JUNCTIONS
-			//SRC
+		
 			Color circleColorOrig=_BLUE_LIGHT_COLOR;
 			g.setColor(circleColorOrig);
 			g.fillOval(x1 - 10 / 2, y - 10 / 2, 10, 10);
 			g.setColor(Color.ORANGE);
 			g.drawString(_map.getRoads().get(i).getSrc().getId(), x1-5, y-10);
 			
-			//DEST
 			Color circleColorDest= _RED_LIGHT_COLOR;
 			int idx = _map.getRoads().get(i).getDest().getGreenLightIndex();
 			if (idx != -1 && _map.getRoads().get(i).equals(_map.getRoads().get(i).getDest().getInRoads().get(idx))) {
@@ -111,38 +103,31 @@ public class MapByRoadComponent extends JComponent implements TrafficSimObserver
 			g.fillOval(x2 - 10 / 2, y - 10 / 2, 10, 10);
 			g.setColor(Color.ORANGE);
 			g.drawString(_map.getRoads().get(i).getDest().getId(), x2-5, y-10);
-			
-			//WEATHER
+			//Weather
 			drawWeather(g,_map.getRoads().get(i), x2+10,y-20);
 			
-			//CONTAM
+			//Contamination
 			drawContam(g,_map.getRoads().get(i), x2+50,y-20);
-		
-			//VEHICLES
-			drawVehicles(g,y,_map.getRoads().get(i));
-
 		}
 
 	}
 	
-	private void drawVehicles(Graphics g,int y, Road r) {
+	private void drawVehicles(Graphics g, Road r,int y) {
 		for (Vehicle v : _map.getVehicles()) {
-			//Road r = v.getRoad();
 			if (v.getStatus() != VehicleStatus.ARRIVED) {
 				if(r.getVehicles().contains(v)) {
 				int x1 = 50;
-				int x2 = getWidth()-100;
-				int y1 = y - 12;
+				int x2 = getWidth()-100-20;
 				
 				
 				double A= (float)v.getLocation();
 				double B= r.getLength();
 				int x= x1 + (int) ((x2 - x1) * ((double) A / (double) B));
 
-				g.drawImage(_car, x, y1 , 16, 16, this);
 				int vLabelColor = (int) (25.0 * (10.0 - (double) v.getContClass()));
+				g.drawImage(_car, x, y - 12 , 16, 16, this);
 				g.setColor(new Color(0, vLabelColor, 0));
-				g.drawString(v.getId(), x, y1);
+				g.drawString(v.getId(), x, y - 12);
 				}
 			}
 		}
@@ -187,39 +172,34 @@ private void drawContam(Graphics g, Road r, int x, int y) {
 	}
 	@Override
 	public void onAdvanceStart(RoadMap map, List<Event> events, int time) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void onAdvanceEnd(RoadMap map, List<Event> events, int time) {
-		// TODO Auto-generated method stub
 		update(map);
 	}
 
 	@Override
 	public void onEventAdded(RoadMap map, List<Event> events, Event e, int time) {
-		// TODO Auto-generated method stub
 		update(map);
 	}
 
 	@Override
 	public void onReset(RoadMap map, List<Event> events, int time) {
-		// TODO Auto-generated method stub
 		update(map);
 	
 	}
 
 	@Override
 	public void onRegister(RoadMap map, List<Event> events, int time) {
-		// TODO Auto-generated method stub
 		update(map);
 	
 	}
 
 	@Override
 	public void onError(String err) {
-		// TODO Auto-generated method stub
+		// TODO onError
 		
 	}
 

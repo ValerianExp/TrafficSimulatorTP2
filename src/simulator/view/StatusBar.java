@@ -40,9 +40,9 @@ public class StatusBar extends JPanel implements TrafficSimObserver {
 		this.add(timeLabel);
 		
 		this.add(new JSeparator(SwingConstants.VERTICAL));
-		
 		eventLabel = new JLabel("");
-		this.add(eventLabel);
+		//TODO Que los eventos aparezcan a la izquierda
+		this.add(eventLabel, BorderLayout.WEST);
 	}
 	
 	
@@ -54,27 +54,30 @@ public class StatusBar extends JPanel implements TrafficSimObserver {
 
 	@Override
 	public void onAdvanceEnd(RoadMap map, List<Event> events, int time) {
-		timeLabel.setText("" + time);
-		eventLabel.setText("");	}
+
+	}
 
 	@Override
 	public void onEventAdded(RoadMap map, List<Event> events, Event e, int time) {
 		timeLabel.setText("" + time);
-		eventLabel.setText("" + events);		
+		eventLabel.setText("" + e.toString());		
 	}
 
 	@Override
 	public void onReset(RoadMap map, List<Event> events, int time) {
 		timeLabel.setText("" + time);
-		eventLabel.setText("");	}
+		eventLabel.setText("");	
+	}
 
 	@Override
 	public void onRegister(RoadMap map, List<Event> events, int time) {
+		timeLabel.setText("" + time);
+		eventLabel.setText("Welcome!");
 	}
 
 	@Override
 	public void onError(String err) {
-		// TODO Auto-generated method stub
+		// TODO onError
 		
 	}
 	

@@ -127,12 +127,10 @@ public class Junction extends SimulatedObject {
 	}
 
 	public int getX() {
-		// TODO Auto-generated method stub
 		return xCoor;
 	}
 
 	public int getY() {
-		// TODO Auto-generated method stub
 		return yCoor;
 	}
 

@@ -267,7 +267,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver	{
 
 	@Override
 	public void onError(String err) {
-		// TODO Auto-generated method stub
+		// TODO onError
 		
 	}
 	
