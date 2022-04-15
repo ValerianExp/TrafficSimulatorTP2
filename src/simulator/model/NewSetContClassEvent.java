@@ -25,10 +25,7 @@ public class NewSetContClassEvent extends Event {
 	
 	@Override
 	public String toString() {
-		
-		return "new set cont class '" + 
-		//TODO id en esta clase
-		"'";
+		return "Event added (Change CO2 Class [(" + cs.get(0).getFirst() + ", " + cs.get(0).getSecond() + ")])";
 	}
 	
 }

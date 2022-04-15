@@ -196,7 +196,7 @@ public class Main {
 		parseArgs(args);
 		
 		if(_model == "console") {
-			startBatchMode();
+//			startBatchMode();
 		}
 		else {
 			startGUIMode();

@@ -175,6 +175,10 @@ public class Vehicle extends SimulatedObject {
 	private void setTotalCO2(int totalCO2) {
 		this.totalCO2 = totalCO2;
 	}
+	
+	public int getDistance() {
+		return totalDistance;
+	}
 
 	@Override
 	public JSONObject report() {

@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -59,7 +60,6 @@ public class MainWindow extends JFrame {
 		tablesPanel.add(junctionsView);
 		
 		
-		// ...
 		// maps
 		JPanel mapView = createViewPanel(new MapComponent(_ctrl), "Map");
 		mapView.setPreferredSize(new Dimension(500, 400));	
@@ -68,16 +68,17 @@ public class MainWindow extends JFrame {
 		JPanel mapByRoadView = createViewPanel(new MapByRoadComponent(_ctrl), "Map by Road");
 		mapByRoadView.setPreferredSize(new Dimension(500, 400));	
 		mapsPanel.add(mapByRoadView); 
-		// TODO add a map for MapByRoadComponent
-		// ...
+		
+		setLocation(100,100);
+
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage("resources\\icons\\co2class.png"));
 		this.pack();
 		this.setVisible(true);
 	}
 
 	private JPanel createViewPanel(JComponent c, String title) {
 		JPanel p = new JPanel(new BorderLayout());
-		// TODO add a framed border to p with title
 		p.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black,2,true), title, TitledBorder.LEFT,TitledBorder.TOP));
 		p.add(new JScrollPane(c));
 		return p;

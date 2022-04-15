@@ -64,7 +64,7 @@ public class Controller {
 	}
 	
 	public void removeObserver(TrafficSimObserver o) {
-		simulator.removerObserver(o);
+		simulator.removeObserver(o);
 	}
 	
 	public void addEvent(Event e) {

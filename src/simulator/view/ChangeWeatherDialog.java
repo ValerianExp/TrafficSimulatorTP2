@@ -18,13 +18,15 @@ import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 
 import extra.dialog.Dish;
+import simulator.model.Road;
 import simulator.model.RoadMap;
 import simulator.model.Vehicle;
+import simulator.model.Weather;
 
-public class ChangeCO2ClassDialog extends JDialog {
+public class ChangeWeatherDialog extends JDialog {
 	
-	private DefaultComboBoxModel<Vehicle> vehicleModel;
-	private DefaultComboBoxModel<Integer> numberModel;
+	private DefaultComboBoxModel<Road> roadModel;
+	private DefaultComboBoxModel<Weather> weatherModel;
 	private JSpinner ticks;
 	private int estado = 0;
 	private JButton accept;
@@ -37,11 +39,10 @@ public class ChangeCO2ClassDialog extends JDialog {
 	private JLabel toptext;
 	private JLabel co2;
 	private JLabel t;
-	private JComboBox<Vehicle> vehicleCB;
-	private JComboBox<Integer> co2CB;
-
+	private JComboBox<Road> roadCB;
+	private JComboBox<Weather> weatherCB;
 	
-	public ChangeCO2ClassDialog(Frame frame) {
+	public ChangeWeatherDialog(Frame frame) {
 		super(frame, true);
 		setTitle("Change CO2 Class");
 		initGUI();
@@ -55,7 +56,7 @@ public class ChangeCO2ClassDialog extends JDialog {
 		
 		// TOPTEXT
 		toptextPanel = new JPanel();
-		toptext = new JLabel("Schedule an event to change the CO2 Class of a vehicle after a given number of simultation ticks from now.");
+		toptext = new JLabel("Schedule an event to change the weather of a road after a given number of simultation ticks from now.");
 		toptextPanel.add(toptext);
 	
 		emergent.add(toptextPanel);
@@ -63,27 +64,27 @@ public class ChangeCO2ClassDialog extends JDialog {
 		// SELECTORES
 		selectors = new JPanel();
 
-		vehicle = new JLabel("Vehicle: ");
-		vehicleModel = new DefaultComboBoxModel<Vehicle>();
+		vehicle = new JLabel("Road: ");
+		roadModel = new DefaultComboBoxModel<Road>();
 		
-		vehicleCB = new JComboBox<Vehicle>(vehicleModel);
-		vehicleCB.setPreferredSize(new Dimension(100, 20));
-		vehicleCB.setVisible(true);
+		roadCB = new JComboBox<Road>(roadModel);
+		roadCB.setPreferredSize(new Dimension(100, 20));
+		roadCB.setVisible(true);
 		
-		co2 = new JLabel("CO2 Class: ");
-		numberModel = new DefaultComboBoxModel<Integer>();
+		co2 = new JLabel("Weather: ");
+		weatherModel = new DefaultComboBoxModel<Weather>();
 		
-		co2CB = new JComboBox<Integer>(numberModel);
-		co2CB.setPreferredSize(new Dimension(100, 20));
-		co2CB.setVisible(true);
+		weatherCB = new JComboBox<Weather>(weatherModel);
+		weatherCB.setPreferredSize(new Dimension(100, 20));
+		weatherCB.setVisible(true);
 		
 		ticks = new JSpinner(new SpinnerNumberModel(10, 0, 10000, 10));
 		t = new JLabel("Ticks: ");
 
 		selectors.add(vehicle);
-		selectors.add(vehicleCB);
+		selectors.add(roadCB);
 		selectors.add(co2);
-		selectors.add(co2CB);
+		selectors.add(weatherCB);
 		selectors.add(t);
 		selectors.add(ticks);
 
@@ -98,7 +99,7 @@ public class ChangeCO2ClassDialog extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				estado = 1;
-				ChangeCO2ClassDialog.this.setVisible(false);
+				ChangeWeatherDialog.this.setVisible(false);
 			}
 			
 		});
@@ -110,7 +111,7 @@ public class ChangeCO2ClassDialog extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				estado = 0;
-				ChangeCO2ClassDialog.this.setVisible(false);
+				ChangeWeatherDialog.this.setVisible(false);
 			}
 			
 		});
@@ -125,32 +126,32 @@ public class ChangeCO2ClassDialog extends JDialog {
 	
 	
 	public int open(RoadMap map) {
-		numberModel.removeAllElements();
-		for (int i = 0; i < 11; i++) {
-			numberModel.addElement(i);
+		roadModel.removeAllElements();
+		for (Road r: map.getRoads()) {
+			roadModel.addElement(r);
 		}
 		
-		vehicleModel.removeAllElements();
-		for(Vehicle v: map.getVehicles()) {
-			vehicleModel.addElement(v);
+		weatherModel.removeAllElements();
+		for(Weather w: Weather.values()) {
+			weatherModel.addElement(w);
 		}
 		setLocation(getParent().getLocation().x+10, getParent().getLocation().y+ 10);
 		setVisible(true);
 		return estado;
 	}
 	
-	public Vehicle getVehicle() {
-		
-		return (Vehicle) vehicleModel.getSelectedItem();
-	}
-
-	public Integer getCO2Class() {
-		
-		return (Integer) numberModel.getSelectedItem();
-	}
-	
 	public Integer getTicks() {
 		
 		return (Integer) ticks.getValue();
+	}
+
+	public Weather getWeather() {
+		
+		return (Weather) weatherModel.getSelectedItem();
+	}
+	
+	public Road getRoad() {
+		
+		return (Road) roadModel.getSelectedItem();
 	}
 }

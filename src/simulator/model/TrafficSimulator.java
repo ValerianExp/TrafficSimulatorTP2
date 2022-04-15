@@ -52,13 +52,13 @@ public class TrafficSimulator implements Observable<TrafficSimObserver> {
 				r.advance(time);
 			}
 
-			for (TrafficSimObserver t : observables) {
-				t.onAdvanceEnd(roadMap, eventList, time);
-			}
 		} catch (Exception e) {
 			for (TrafficSimObserver t : observables) {
 				t.onError(e.getMessage());
 			}
+		}
+		for (TrafficSimObserver t : observables) {
+			t.onAdvanceEnd(roadMap, eventList, time);
 		}
 	}
 
@@ -83,15 +83,15 @@ public class TrafficSimulator implements Observable<TrafficSimObserver> {
 
 	@Override
 	public void addObserver(TrafficSimObserver o) {
-		observables.add(o);
+		if(!observables.contains(o)) observables.add(o);
 		for (TrafficSimObserver t : observables) {
 			t.onRegister(roadMap, eventList, time);
 		}
 	}
 
 	@Override
-	public void removerObserver(TrafficSimObserver o) {
-		observables.remove(o);
+	public void removeObserver(TrafficSimObserver o) {
+		if(observables.contains(o))	observables.remove(o);
 	}
 
 }

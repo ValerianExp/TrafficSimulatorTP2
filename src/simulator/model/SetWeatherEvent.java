@@ -25,10 +25,8 @@ public class SetWeatherEvent extends Event{
 		
 	}
 	
-	//TODO esto no tiene id
 	@Override
 	public String toString() {
-		
-		return super.toString();
+		return "Event added (Change Weather [(" + ws.get(0).getFirst() + ", " + ws.get(0).getSecond() + ")])";
 	}
 }

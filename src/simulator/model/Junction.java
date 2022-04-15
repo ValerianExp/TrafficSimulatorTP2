@@ -137,12 +137,10 @@ public class Junction extends SimulatedObject {
 	}
 
 	public int getGreenLightIndex() {
-		// TODO Auto-generated method stub
 		return greenLightIndex;
 	}
 
 	public List<Road> getInRoads() {
-		// TODO Auto-generated method stub
 		return incomingRoads;
 	}
 

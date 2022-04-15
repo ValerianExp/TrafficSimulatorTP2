@@ -19,6 +19,7 @@ public class VehiclesTableModel extends AbstractTableModel implements TrafficSim
 	VehiclesTableModel(Controller ctrl) {
 		_ctrl = ctrl;
 		vl = new ArrayList<Vehicle>();
+		_ctrl.addObserver(this);
 	}
 	@Override
 	public int getRowCount() {
@@ -37,41 +38,60 @@ public class VehiclesTableModel extends AbstractTableModel implements TrafficSim
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
+		Vehicle vehicle = vl.get(rowIndex);
 		switch(columnIndex) {
 		case 0:
-			return 0;
+			return vehicle.getId();
+		case 1:
+			return vehicle.getLocation();
+		case 2:
+			return vehicle.getItinerary();
+		case 3:
+			return vehicle.getContClass();
+		case 4:
+			return vehicle.getMaxSpeed();
+		case 5: 
+			return vehicle.getSpeed();
+		case 6: 
+			return vehicle.getTotalCO2();
+		case 7:
+			return vehicle.getDistance();
 		}
+		
 		return null;
 	}
 
 	@Override
 	public void onAdvanceStart(RoadMap map, List<Event> events, int time) {
-		// TODO Auto-generated method stub
-		
+		vl = map.getVehicles();
+		this.fireTableDataChanged();
 	}
 
 	@Override
 	public void onAdvanceEnd(RoadMap map, List<Event> events, int time) {
-		// TODO Auto-generated method stub
+		vl = map.getVehicles();
+		this.fireTableDataChanged();
 		
 	}
 
 	@Override
 	public void onEventAdded(RoadMap map, List<Event> events, Event e, int time) {
-		// TODO Auto-generated method stub
+		vl = map.getVehicles();
+		this.fireTableDataChanged();
 		
 	}
 
 	@Override
 	public void onReset(RoadMap map, List<Event> events, int time) {
-		// TODO Auto-generated method stub
+		vl = map.getVehicles();
+		this.fireTableDataChanged();
 		
 	}
 
 	@Override
 	public void onRegister(RoadMap map, List<Event> events, int time) {
-		// TODO Auto-generated method stub
-		
+		vl = map.getVehicles();
+		this.fireTableDataChanged();
 	}
 
 	@Override
@@ -79,7 +99,4 @@ public class VehiclesTableModel extends AbstractTableModel implements TrafficSim
 		// TODO Auto-generated method stub
 		
 	}
-
-	
-
 }
