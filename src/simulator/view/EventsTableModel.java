@@ -85,7 +85,4 @@ public class EventsTableModel extends AbstractTableModel implements TrafficSimOb
 		// TODO onError
 		
 	}
-
-	
-
 }

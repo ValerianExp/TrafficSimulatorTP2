@@ -25,7 +25,16 @@ public class NewSetContClassEvent extends Event {
 	
 	@Override
 	public String toString() {
-		return "Event added (Change CO2 Class [(" + cs.get(0).getFirst() + ", " + cs.get(0).getSecond() + ")])";
+	String s = "Change CO2 class [";
+		
+		for(int i = 0; i< cs.size(); i++) {
+			s += "(" + cs.get(i).getFirst() + ", " + cs.get(i).getSecond() + ")";
+			if (i!=cs.size()-1) s+= ", ";
+		}
+		
+		s+="]";
+		
+		return s;
 	}
 	
 }

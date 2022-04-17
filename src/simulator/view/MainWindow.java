@@ -69,8 +69,11 @@ public class MainWindow extends JFrame {
 		mapByRoadView.setPreferredSize(new Dimension(500, 400));	
 		mapsPanel.add(mapByRoadView); 
 		
+//		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+//		int x = (int) ((d.getWidth() - this.getWidth() / 2));
+//		int y = (int) ((d.getHeight() - this.getHeight() / 2));
 		setLocation(100,100);
-
+		
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage("resources\\icons\\co2class.png"));
 		this.pack();

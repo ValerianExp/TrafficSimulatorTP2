@@ -77,7 +77,7 @@ public class ChangeCO2ClassDialog extends JDialog {
 		co2CB.setPreferredSize(new Dimension(100, 20));
 		co2CB.setVisible(true);
 		
-		ticks = new JSpinner(new SpinnerNumberModel(10, 0, 10000, 10));
+		ticks = new JSpinner(new SpinnerNumberModel(1, 0, 10000, 1));
 		t = new JLabel("Ticks: ");
 
 		selectors.add(vehicle);
@@ -134,7 +134,7 @@ public class ChangeCO2ClassDialog extends JDialog {
 		for(Vehicle v: map.getVehicles()) {
 			vehicleModel.addElement(v);
 		}
-		setLocation(getParent().getLocation().x+10, getParent().getLocation().y+ 10);
+		this.setLocationRelativeTo(getParent());
 		setVisible(true);
 		return estado;
 	}

@@ -78,7 +78,7 @@ public class ChangeWeatherDialog extends JDialog {
 		weatherCB.setPreferredSize(new Dimension(100, 20));
 		weatherCB.setVisible(true);
 		
-		ticks = new JSpinner(new SpinnerNumberModel(10, 0, 10000, 10));
+		ticks = new JSpinner(new SpinnerNumberModel(1, 0, 10000, 1));
 		t = new JLabel("Ticks: ");
 
 		selectors.add(vehicle);
@@ -135,7 +135,7 @@ public class ChangeWeatherDialog extends JDialog {
 		for(Weather w: Weather.values()) {
 			weatherModel.addElement(w);
 		}
-		setLocation(getParent().getLocation().x+10, getParent().getLocation().y+ 10);
+		this.setLocationRelativeTo(getParent());
 		setVisible(true);
 		return estado;
 	}

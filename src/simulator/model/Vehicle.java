@@ -161,6 +161,10 @@ public class Vehicle extends SimulatedObject {
 		return contClass;
 	}
 
+	public int getlastJunctionIndex() {
+		return lastJunctionIndex;
+	}
+
 	void setContClass(int contClass) {
 		if (contClass < 0 || contClass > 10) {
 			throw new IllegalArgumentException("contClass negativo");

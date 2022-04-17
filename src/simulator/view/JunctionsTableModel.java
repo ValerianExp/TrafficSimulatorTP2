@@ -8,8 +8,11 @@ import javax.swing.table.AbstractTableModel;
 import simulator.control.Controller;
 import simulator.model.Event;
 import simulator.model.Junction;
+import simulator.model.Road;
 import simulator.model.RoadMap;
 import simulator.model.TrafficSimObserver;
+import simulator.model.Vehicle;
+import simulator.model.VehicleStatus;
 
 public class JunctionsTableModel extends AbstractTableModel implements TrafficSimObserver {
 	private Controller _ctrl;
@@ -45,10 +48,20 @@ public class JunctionsTableModel extends AbstractTableModel implements TrafficSi
 		case 0:
 			return junction.getId();
 		case 1:
-			if(junction.getGreenLightIndex()==-1) return "none";	
-			return junction.getGreenLightIndex();
+			if(junction.getGreenLightIndex()==-1) return "NONE";	
+			int indice = jl.get(rowIndex).getGreenLightIndex();
+			return jl.get(rowIndex).getInRoads().get(indice);
 		case 2: 
-			return junction.getInRoads();
+			String queue = "";
+			for (Road r : jl.get(rowIndex).getInRoads())
+			{
+				queue += r.getId() + ":[";
+				for(Vehicle v: r.getVehicles()) {
+					if (v.getStatus() == VehicleStatus.WAITING) queue += v.getId();
+				}
+				queue += "] ";
+			}
+			return queue;
 		}
 		return null;
 	}
@@ -57,7 +70,6 @@ public class JunctionsTableModel extends AbstractTableModel implements TrafficSi
 	public void onAdvanceStart(RoadMap map, List<Event> events, int time) {
 		jl=map.getJunctions();
 		fireTableDataChanged();
-
 	}
 
 	@Override

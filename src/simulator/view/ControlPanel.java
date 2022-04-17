@@ -78,7 +78,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver	{
 		weatherButton= new JButton();
 		runButton= new JButton();
 		stopButton= new JButton();
-		ticks = new JSpinner(new SpinnerNumberModel(10, 0, 10000, 10));
+		ticks = new JSpinner(new SpinnerNumberModel(10, 0, 10000, 1));
 		exitButton= new JButton();
 		
 		initGUI();

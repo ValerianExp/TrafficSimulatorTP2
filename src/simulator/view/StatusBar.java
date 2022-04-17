@@ -2,6 +2,7 @@ package simulator.view;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.FlowLayout;
 import java.util.List;
 
 import javax.swing.BoxLayout;
@@ -29,9 +30,7 @@ public class StatusBar extends JPanel implements TrafficSimObserver {
 
 	
 	private void initGUI() {
-		this.setLayout(new BoxLayout(this,BoxLayout.X_AXIS));
-		
-		
+		this.setLayout(new FlowLayout(FlowLayout.LEFT));
 		this.setBorder(BorderFactory.createBevelBorder(1));
 		
 		time = new JLabel("Time: ", JLabel.LEFT);
@@ -41,7 +40,6 @@ public class StatusBar extends JPanel implements TrafficSimObserver {
 		
 		this.add(new JSeparator(SwingConstants.VERTICAL));
 		eventLabel = new JLabel("");
-		//TODO Que los eventos aparezcan a la izquierda
 		this.add(eventLabel, BorderLayout.WEST);
 	}
 	
@@ -60,7 +58,7 @@ public class StatusBar extends JPanel implements TrafficSimObserver {
 	@Override
 	public void onEventAdded(RoadMap map, List<Event> events, Event e, int time) {
 		timeLabel.setText("" + time);
-		eventLabel.setText("" + e.toString());		
+		eventLabel.setText("Event added:(" + e.toString() + ")");		
 	}
 
 	@Override

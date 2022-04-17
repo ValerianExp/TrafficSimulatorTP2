@@ -43,7 +43,17 @@ public class VehiclesTableModel extends AbstractTableModel implements TrafficSim
 		case 0:
 			return vehicle.getId();
 		case 1:
-			return vehicle.getLocation();
+			switch(vehicle.getStatus()) {
+			case ARRIVED:
+				return "Arrived";
+			case TRAVELING:
+				String s= vehicle.getRoad().getId() + ":" +  vehicle.getLocation();
+				return s;
+			case PENDING:
+				return "Pending";
+			case WAITING:
+				return "Waiting:" + vehicle.getItinerary().get(vehicle.getlastJunctionIndex());
+			}
 		case 2:
 			return vehicle.getItinerary();
 		case 3:

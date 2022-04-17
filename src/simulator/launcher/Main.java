@@ -47,6 +47,7 @@ public class Main {
 	private static Factory<Event> _eventsFactory = null;
 	private static int time = _timeLimitDefaultValue;
 	private static String _model = "";
+	private static boolean gui = true;
 	
 	private static void parseArgs(String[] args) {
 
@@ -86,12 +87,10 @@ public class Main {
 		Options cmdLineOptions = new Options();
 
 		cmdLineOptions.addOption(Option.builder("i").longOpt("input").hasArg().desc("Events input file").build());
-		cmdLineOptions.addOption(
-				Option.builder("o").longOpt("output").hasArg().desc("Output file, where reports are written.").build());
+		cmdLineOptions.addOption(Option.builder("o").longOpt("output").hasArg().desc("Output file, where reports are written.").build());
 		cmdLineOptions.addOption(Option.builder("h").longOpt("help").desc("Print this message").build());
 		cmdLineOptions.addOption(Option.builder("t").longOpt("ticks").hasArg().desc("Ticks to the simulator's main loop (default value is 10)").build());
-		cmdLineOptions.addOption(Option.builder("m").longOpt("mode").hasArg().build());
-		return cmdLineOptions;
+		cmdLineOptions.addOption(Option.builder("m").longOpt("mode").hasArg().desc("GUI or console").build());		return cmdLineOptions;
 	}
 
 	private static void parseTimeOption(CommandLine line) {
@@ -112,24 +111,26 @@ public class Main {
 		}
 	}
 
+	
 	private static void parseGUIOption(CommandLine line) throws ParseException, IOException {
-		String s = line.getOptionValue("m");
-		_model = s;
-		if (_model == null) {
-			_model = "gui";
+		if (line.hasOption("m") && line.getOptionValue("m").equalsIgnoreCase("console"))
+		{
+			gui = false;
 		}
-//		startGUIMode();
 	}
 
 	private static void parseInFileOption(CommandLine line) throws ParseException {
 		_inFile = line.getOptionValue("i");
 		if (_inFile == null) {
-			throw new ParseException("An events file is missing");
+			gui = true;
 		}
 	}
 
 	private static void parseOutFileOption(CommandLine line) throws ParseException {
-		_outFile = line.getOptionValue("o");
+		if (gui != true)
+		{
+			_outFile = line.getOptionValue("o");
+		}	
 	}
 
 	private static void initFactories() {
@@ -180,7 +181,6 @@ public class Main {
 		if(_inFile != null) {
 			InputStream in = new FileInputStream(new File(_inFile));
 			controller.loadEvents(in);
-			in.close();
 		}
 		
 		SwingUtilities.invokeLater(new Runnable() {
@@ -195,12 +195,8 @@ public class Main {
 		initFactories();
 		parseArgs(args);
 		
-		if(_model == "console") {
-//			startBatchMode();
-		}
-		else {
-			startGUIMode();
-		}
+		if (gui) startGUIMode();
+		else startBatchMode();
 	}
 
 	// example command lines:
