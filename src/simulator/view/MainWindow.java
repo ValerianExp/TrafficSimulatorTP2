@@ -59,6 +59,11 @@ public class MainWindow extends JFrame {
 		junctionsView.setPreferredSize(new Dimension(500, 200));
 		tablesPanel.add(junctionsView);
 		
+		//TODO vehicleSpeed examen
+		JPanel vehiclesSpeed = createViewPanel(new JTable(new VehiclesSpeedExamen(_ctrl)), "Vehicles Speed");
+		vehiclesSpeed.setPreferredSize(new Dimension(500, 200));
+		tablesPanel.add(vehiclesSpeed);
+		
 		
 		// maps
 		JPanel mapView = createViewPanel(new MapComponent(_ctrl), "Map");

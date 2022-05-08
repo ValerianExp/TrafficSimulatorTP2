@@ -38,10 +38,11 @@ import simulator.model.Event;
 import simulator.model.LightSwitchingStrategy;
 import simulator.model.TrafficSimulator;
 import simulator.view.MainWindow;
+import simulator.view.TicksExamen;
 
 public class Main {
 
-	private final static Integer _timeLimitDefaultValue = 10;
+	private final static Integer _timeLimitDefaultValue = 300;
 	private static String _inFile = null;
 	private static String _outFile = null;
 	private static Factory<Event> _eventsFactory = null;
@@ -153,7 +154,7 @@ public class Main {
 		ebs.add(new SetContClassEventBuilder());
 		ebs.add(new SetWeatherEventBuilder());
 		BuilderBasedFactory<Event> bbf = new BuilderBasedFactory<Event>(ebs);
-
+		
 		_eventsFactory = bbf;
 
 	}
@@ -167,7 +168,12 @@ public class Main {
 			output = new FileOutputStream(new File(_outFile));
 		Controller controller = new Controller(new TrafficSimulator(), _eventsFactory);
 		controller.loadEvents(input);
+		//TODO examen de los ticks
+		//--
+		TicksExamen te = new TicksExamen(controller);
+		//--
 		controller.run(time, output);
+		System.out.println(te);
 		input.close();
 	}
 
