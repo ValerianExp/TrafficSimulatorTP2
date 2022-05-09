@@ -99,9 +99,8 @@ public class TicksExamen implements TrafficSimObserver {
 	            String childKey = entry2.getKey();
 	            Integer childValue = entry2.getValue();
 	            salida += "(" + childKey + "," + childValue + ")";
-	            if (childMap.size() > 1) {
-					salida += ", ";
-				}
+				salida += ", ";
+				
 	        }
 	        //Borrar el ultimo ", " de cada iteracion del tick
 	        //---
