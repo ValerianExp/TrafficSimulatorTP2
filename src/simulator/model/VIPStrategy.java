@@ -40,7 +40,7 @@ public class VIPStrategy implements DequeuingStrategy{
 		return solucion;
 	}
 	
-	
+	//Version 2-Esta incompleta/mal
 	public List<Vehicle> dequeue_2(List<Vehicle> q) {
 		// TODO Examen
 		List<Vehicle> solucion = new ArrayList<>();

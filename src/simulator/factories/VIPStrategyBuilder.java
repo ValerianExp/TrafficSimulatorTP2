@@ -16,7 +16,7 @@ public class VIPStrategyBuilder extends Builder<DequeuingStrategy>{
 	//Mira antes de entrar mira que data != null
 	protected DequeuingStrategy createTheInstance(JSONObject data) {
 		String tag;
-		int limit = 0;
+		int limit = 1; //Valor por defecto
 		if (data.has("viptag")) {
 			tag = data.getString("viptag");
 		}
