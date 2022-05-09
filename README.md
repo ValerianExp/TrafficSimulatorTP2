@@ -1,6 +1,6 @@
 # TrafficSimulatorTP2
 
-##Ticks - Modo Consola
+## Ticks - Modo Consola
 Enunciado
 ![imagen](https://user-images.githubusercontent.com/74860846/167438184-0ef8c048-3f5d-4583-badc-034d4c557deb.png)
 ### Creacion de la nueva clase 
